@@ -3,10 +3,9 @@ SetPoint é um projeto individual sobre Tênis, desenvolvido para organizar camp
 
 ## Visão geral
 O objetivo do SetPoint é facilitar a vida de grupos de amigos que jogam tênis e querem:
-- organizar torneios com chaveamento
-- registrar placares e pontuações
-- acompanhar ranking do grupo
-- salvar quadras recomendadas pelo próprio grupo
+- Organizar torneios com chaveamento
+- Registrar placares e pontuações
+- Acompanhar ranking do grupo
 
 ## Funcionalidades
 ### MVP
@@ -16,7 +15,6 @@ O objetivo do SetPoint é facilitar a vida de grupos de amigos que jogam tênis 
 - Sorteio de chaveamento por bracket
 - Registro de partidas e resultados
 - Leaderboard (ranking por pontos e vitórias)
-- Cadastro de quadras dentro do grupo (nome, bairro, piso, preço, observações)
 
 ## Stack
 - Frontend: HTML + CSS + JavaScript
