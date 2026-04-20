@@ -11,6 +11,7 @@
     box-sizing: border-box;
 }
 
+/* header */
 .header {
     display: flex;
     height: 80px;
@@ -51,6 +52,8 @@
     padding-right: 40px;
 }
 
+
+/* banner */
 .banner {
     width: 100%;
     height: 900px;
@@ -58,6 +61,7 @@
     background-size: cover;
 }
 
+/* intro */
 .intro {
     padding-top: 100px;
     padding-left: 100px;
@@ -114,14 +118,14 @@ button {
     height: auto;
     padding: 0 !important;
     overflow: hidden;
-    max-width: 1000px;
+    max-width: 1106px;
 }
 
 .conteudo {
     display: flex;
     width: 400%;
     height: auto;
-    padding-top: 30px;
+    padding-top: 50px;
 }
 
 .conteudo input {
@@ -143,8 +147,8 @@ button {
 .nav-manual, .nav-auto {
     position: absolute;
     width: 100%;
-    max-width: 1000px;
-    margin-top: 30%;
+    max-width: 1106px;
+    margin-top: 32%;
     display: flex;
     justify-content: center;
 }
@@ -185,4 +189,75 @@ button {
 
 #radio3:checked ~ .primeiro {
     margin-left: -50%;
+}
+
+/* texto conector */
+.texto-conector {
+    display: flex;
+    justify-content: center;
+    padding-top: 100px;
+}
+
+.texto-conector p {
+    font-family: "Mulish", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 24px;
+    text-align: center;
+}
+
+/* painel */
+.painel {
+    display: flex;
+    width: 100%;
+    max-width: 1135px;
+    height: auto;
+    justify-content: center;
+    justify-self: center;
+    padding-top: 30px;
+}
+
+.painel .imagem {
+    background-image: url('../icons/imagem-painel.png');
+    background-size: cover;
+    width: 666px;
+    height: 888px;
+}
+
+.painel .dados {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: center;
+    padding-left: 140px;
+}
+
+.painel .dados h1 {
+    font-family: "Mulish", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    text-align: center;
+}
+
+.painel .dados .grupos p {
+    font-family: "Mulish", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 120px;
+    text-align: center;
+    color: #3c5b0a;
+}
+
+.painel .dados p {
+    font-family: "Mulish", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 64px;
+    text-align: center;
+    color: #3c5b0a;
 }
