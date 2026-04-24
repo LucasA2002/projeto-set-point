@@ -1,4 +1,4 @@
-/* Fonts */
+/* fontes */
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;600;700;800&display=swap');
 
@@ -31,9 +31,7 @@ body {
   font-family: "Mulish", sans-serif;
 }
 
-/* =========================
-   Header
-========================= */
+/* header */
 .header {
   height: 80px;
   width: 100%;
@@ -42,7 +40,7 @@ body {
   justify-content: space-between;
 
   padding: 0 28px;
-  background: #ffffff;                 /* removido blur/backdrop-filter */
+  background: #ffffff;
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
@@ -80,45 +78,55 @@ body {
   background-position: center;
 }
 
-/* Botão estilo "pill" para LOGIN e CADASTRAR */
-.login-cadastro p {
+/* botoes login e cadastro */
+.login-cadastro a {
+  font-family: "Lato", sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  text-decoration: none;
+  color: var(--primary);
+
   border: 1px solid rgba(60, 91, 10, 0.25);
   padding: 10px 14px;
   border-radius: 999px;
   background: rgba(194, 240, 90, 0.18);
+
+  transition: 0.2s;
 }
 
-/* LOGIN preenchido em verde, texto branco */
-.login-cadastro p:first-child {
+/* preenchimento do botao de login */
+.login-cadastro a:first-child{
   background: var(--primary);
   color: #fff;
   border-color: rgba(60, 91, 10, 0.35);
 }
 
-.login-cadastro p:first-child:hover {
+.login-cadastro a:first-child:hover {
   background: var(--primary-2);
 }
 
-/* CADASTRAR mantém estilo leve */
-.login-cadastro p:last-child:hover {
+
+/* preenchimento do botao de cadastro */
+.login-cadastro a:last-child:hover {
   background: rgba(194, 240, 90, 0.32);
 }
 
-/* =========================
-   Banner
-========================= */
+
+/* banner */
 .banner {
   width: 100%;
-  height: 650px;                       /* removido clamp */
+  height: 650px;                  
   background-image: url('../icons/banner.png');
   background-size: cover;
   background-position: center;
   border-bottom: 1px solid var(--border);
 }
 
-/* =========================
-   Intro
-========================= */
+
+/* intro */
 .intro {
   max-width: var(--container);
   margin: 0 auto;
@@ -128,7 +136,7 @@ body {
 .intro h1 {
   font-family: "Mulish", sans-serif;
   font-weight: 300;
-  font-size: 64px;                     /* removido clamp */
+  font-size: 64px;                 
   line-height: 1.05;
   max-width: 920px;
   margin-bottom: 18px;
@@ -174,10 +182,8 @@ button:hover {
   height: 10px;
 }
 
-/* =========================
-   Slider
-========================= */
-/* Título do slider */
+/* seção slider */
+/* titulo */
 .slider-titulo {
   max-width: 1106px;
   margin: 0 auto;
@@ -195,7 +201,7 @@ button:hover {
   text-decoration-style: solid;
 }
 
-/* slider (3 slides) */
+/* slider */
 .slider {
   margin: 0 auto;
   width: 100%;
@@ -281,9 +287,7 @@ button:hover {
   margin-left: -50%;
 }
 
-/* =========================
-   Texto conector
-========================= */
+/* texto conector */
 .texto-conector {
   max-width: var(--container);
   margin: 0 auto;
@@ -302,9 +306,7 @@ button:hover {
   text-decoration-style: solid;
 }
 
-/* =========================
-   Painel
-========================= */
+/* painel */
 .painel {
   max-width: var(--container);
   margin: 0 auto;
@@ -382,9 +384,7 @@ button:hover {
   box-shadow: 0 10px 26px rgba(15, 23, 42, 0.06);
 }
 
-/* =========================
-   Sobre Mim
-========================= */
+/* sobre mim PENDENCIAS*/
 .sobre-mim {
   max-width: var(--container);
   margin: 0 auto;
@@ -405,8 +405,7 @@ button:hover {
 .sobre-foto {
   min-height: 280px;
   background: #e9ece3;
-  /* quando tiver sua foto: */
-  /* background-image: url('../icons/minha-foto.jpg'); */
+  /* background-image: url('../icons/'); pendente adicionar minha foto*/ 
   background-size: cover;
   background-position: center;
 }
@@ -448,9 +447,7 @@ button:hover {
   background: rgba(194, 240, 90, 0.32);
 }
 
-/* =========================
-   Footer
-========================= */
+/* footer */
 .footer {
   width: 100%;
   background: #0c1303;
