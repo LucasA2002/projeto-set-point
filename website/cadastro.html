@@ -9,9 +9,63 @@
 <body>
     <div class="background">
         <div class="card">
-            <div class="logo"></div>
-            <div class="formulario"></div>
+            <div class="card-header">
+                <div class="logo"></div>
+            </div>
+            <div class="card-body">
+                <div class="formulario">
+                    <p>Nome Completo:</p>
+                    <input type="text" placeholder="Digite o seu Nome Completo" name="nome" id="ipt_nome" required>
+
+                    <p>Data de Nascimento:</p>
+                    <input type="date" placeholder="dd/mm/aaaa" name="" id="ipt_dtNasc" required>
+
+                    <div class="selects">
+                        <div class="select-genero">
+                            <p>Gênero:</p>
+                            <select name="genero" id="slt_genero" required>
+                                <option value="" selected disabled>Selecione</option>
+                                <option value="masculino">Masculino</option>
+                                <option value="feminino">Feminino</option>
+                                <option value="nao_binario">Não-Binário</option>
+                                <option value="nao_informado">Prefiro não responder</option>
+                            </select>
+                        </div>
+                        <div class="select-nivel">
+                            <p>Nível de Jogo:</p>
+                            <select name="tempo" id="tempo" required>
+                                <option value="" selected disabled>Selecione</option>
+                                <option value="iniciante">Iniciante</option>
+                                <option value="intermediario">Intermediário</option>
+                                <option value="avancado">Avançado</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <p>Email:</p>
+                    <input type="email" placeholder="nome@email.com" name="email" id="ipt_email" required>
+
+                    <p>Senha:</p>
+                    <input type="password" placeholder="Sua Senha" name="senha" id="ipt_senha" required>
+
+                    <p>Confirme a sua Senha:</p>
+                    <input type="password" placeholder="Confirme Sua Senha" name="senhaConf" id="ipt_senhaConf" required>
+
+                    <button class="btn-cadastrar" type="button" onclick="cadastrar()">
+                        Criar conta
+                    </button>
+
+                    <p class="link-login">
+                    Já tem uma conta? <a href="login.html">Fazer login</a>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 </body>
 </html>
+<script>
+    function cadastrar(){
+        alert("Cadastro Efetuado!")
+    }
+</script>

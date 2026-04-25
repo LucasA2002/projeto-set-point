@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="styles/login.css">
+</head>
+<body>
+  <div class="background">
+    <div class="card">
+      <div class="card-header">
+        <div class="logo"></div>
+      </div>
+
+      <div class="card-body">
+        <div class="formulario">
+            <p>Email:</p>
+            <input type="text" placeholder="nome@email.com" id="ipt_email" required>
+
+            <p>Senha:</p>
+            <input type="password" placeholder="Sua senha" id="ipt_senha" required>
+
+            <button class="btn-entrar" type="button" onclick="entrar()">
+            Entrar
+            </button>
+
+            <p class="link-login">
+            Não tem uma conta? <a href="cadastro.html">Criar conta</a>
+            </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function entrar(){
+      alert("Login efetuado!");
+    }
+  </script>
+</body>
+</html>
