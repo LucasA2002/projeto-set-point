@@ -193,12 +193,9 @@ button:hover {
 .slider-titulo h2 {
   font-family: "Mulish", sans-serif;
   font-weight: 700;
-  font-size: 22px;
+  font-size: 36px;
   color: var(--text);
   text-align: center;
-  text-decoration: underline;
-  text-decoration-color: var(--primary);
-  text-decoration-style: solid;
 }
 
 /* slider */
@@ -240,7 +237,7 @@ button:hover {
   position: absolute;
   width: 100%;
   max-width: 1106px;
-  margin-top: 35%;
+  margin-top: 40%;
   display: flex;
   justify-content: center;
 }
@@ -298,12 +295,9 @@ button:hover {
 .texto-conector p {
   font-family: "Mulish", sans-serif;
   font-weight: 700;
-  font-size: 22px;
+  font-size: 36px;
   color: var(--text);
   text-align: center;
-  text-decoration: underline;
-  text-decoration-color: var(--primary);
-  text-decoration-style: solid;
 }
 
 /* painel */
@@ -340,12 +334,12 @@ button:hover {
   align-self: center;
 }
 
-.painel .dados > div {
+.painel .dados div {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 22px 18px;
-  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.527);
   text-align: center;
 }
 
