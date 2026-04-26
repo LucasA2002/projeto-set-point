@@ -46,7 +46,7 @@ body {
   z-index: 50;
 }
 
-.header p {
+.header a {
   font-family: "Lato", sans-serif;
   font-weight: 800;
   font-size: 13px;
@@ -55,9 +55,10 @@ body {
   color: var(--primaria);
   cursor: pointer;
   transition: 0.2s;
+  text-decoration: none;
 }
 
-.header p:hover {
+.header a:hover {
   color: var(--secundaria);
 }
 
@@ -207,6 +208,7 @@ button:hover {
   max-width: 1106px;
 }
 
+/* estipulando tamanho total do slider */
 .conteudo {
   display: flex;
   width: 400%;
@@ -215,10 +217,12 @@ button:hover {
   padding-bottom: 30px;
 }
 
+/* removendo display dos inputs */
 .conteudo input {
   display: none;
 }
 
+/* definindo tamanho e posição da tela do slide atual */
 .slide-box {
   width: 25%;
   height: auto;
@@ -227,10 +231,12 @@ button:hover {
   transition: 1s;
 }
 
+/* definindo preenchimento da imagem dentro do container */
 .slide-box img {
   width: 100%;
 }
 
+/* settando posição e tamanho dos botões */
 .nav-manual,
 .nav-auto {
   position: absolute;
@@ -241,6 +247,7 @@ button:hover {
   justify-content: center;
 }
 
+/* estilização dos botões */
 .nav-manual .manual-botao,
 .nav-auto div {
   border: 1px solid #3c5b0a;
@@ -250,35 +257,33 @@ button:hover {
   transition: 1s;
 }
 
+/* espaçamento dos botões */
 .nav-manual .manual-botao:not(:last-child),
 .nav-auto div:not(:last-child) {
   margin-right: 10px;
 }
 
+/* preenchimento */
 .nav-manual .manual-botao:hover {
   background-color: #3c5b0a;
 }
 
+/* impedir que o preenchimento do botão permaneça após o slide ser passado */
 #radio1:checked~.nav-auto .auto-botao1 {
   background-color: #3c5b0a;
 }
-
 #radio2:checked~.nav-auto .auto-botao2 {
   background-color: #3c5b0a;
 }
-
 #radio3:checked~.nav-auto .auto-botao3 {
   background-color: #3c5b0a;
 }
-
 #radio1:checked~.primeiro {
   margin-left: 0%;
 }
-
 #radio2:checked~.primeiro {
   margin-left: -25%;
 }
-
 #radio3:checked~.primeiro {
   margin-left: -50%;
 }
@@ -346,7 +351,6 @@ button:hover {
   font-family: "Mulish", sans-serif;
   font-weight: 700;
   font-size: 14px;
-  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--texto2);
   margin-bottom: 10px;
@@ -365,19 +369,17 @@ button:hover {
   max-width: 900px;
   margin: 0 auto;
   text-align: center;
-
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid var(--borda);
   border-radius: var(--radius);
   padding: 22px 26px;
-
   color: var(--texto2);
   line-height: 1.7;
   font-size: 16px;
   box-shadow: 0 10px 26px rgba(15, 23, 42, 0.06);
 }
 
-/* sobre mim PENDENCIAS*/
+/* sobre mim */
 .sobre-mim {
   max-width: var(--container);
   margin: 0 auto;
@@ -390,7 +392,6 @@ button:hover {
   border-radius: var(--radius);
   box-shadow: var(--sombra);
   overflow: hidden;
-
   display: grid;
   grid-template-columns: 280px 1fr;
 }
@@ -398,7 +399,7 @@ button:hover {
 .sobre-foto {
   min-height: 280px;
   background: #e9ece3;
-  /* background-image: url('../icons/'); pendente adicionar minha foto*/ 
+  background-image: url('../icons/foto-sobre-mim.jpeg');
   background-size: cover;
   background-position: center;
 }
