@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="css/cadastro.css">
+</head>
+<body>
+    <div class="background">
+        <div class="card">
+            <div class="card-header">
+                <div class="logo"></div>
+            </div>
+            <div class="card-body">
+                <div class="formulario">
+                    <p>Nome Completo:</p>
+                    <input type="text" placeholder="Digite o seu Nome Completo" name="nome" id="ipt_nome" required>
+
+                    <p>Data de Nascimento:</p>
+                    <input type="date" placeholder="dd/mm/aaaa" name="" id="ipt_dtNasc" required>
+
+                    <div class="selects">
+                        <div class="select-genero">
+                            <p>Gênero:</p>
+                            <select name="genero" id="slt_genero" required>
+                                <option value="" selected disabled>Selecione</option>
+                                <option value="masculino">Masculino</option>
+                                <option value="feminino">Feminino</option>
+                                <option value="nao_binario">Não-Binário</option>
+                                <option value="nao_informado">Prefiro não responder</option>
+                            </select>
+                        </div>
+                        <div class="select-nivel">
+                            <p>Nível de Jogo:</p>
+                            <select name="nivel" id="slt_nivel" required>
+                                <option value="" selected disabled>Selecione</option>
+                                <option value="iniciante">Iniciante</option>
+                                <option value="intermediario">Intermediário</option>
+                                <option value="avancado">Avançado</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <p>Email:</p>
+                    <input type="email" placeholder="nome@email.com" name="email" id="ipt_email" required>
+
+                    <p>Senha:</p>
+                    <input type="password" placeholder="Sua Senha" name="senha" id="ipt_senha" required>
+
+                    <p>Confirme a sua Senha:</p>
+                    <input type="password" placeholder="Confirme Sua Senha" name="senhaConf" id="ipt_senhaConf" required>
+
+                    <button class="btn-cadastrar" type="button" onclick="cadastrar()">
+                        Criar conta
+                    </button>
+
+                    <p class="link-login">
+                    Já tem uma conta? <a href="login.html">Fazer login</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    function cadastrar(){
+        alert("Cadastro Efetuado!")
+    }
+
+  function cadastrar() {
+    // aguardar();
+
+    //Recupere o valor da nova input pelo nome do id
+    // Agora vá para o método fetch logo abaixo
+    var nomeVar = ipt_nome.value;
+    var nascVar = ipt_dtNasc.value;
+    var generoVar = slt_genero.value;
+    var nivelVar = slt_nivel.value;
+    var emailVar = ipt_email.value;
+    var senhaVar = ipt_senha.value;
+    var confirmacaoSenhaVar = ipt_senhaConf.value;
+
+    // Verificando se há algum campo em branco
+    if (
+      nomeVar == "" ||
+      nascVar == "" ||
+      generoVar == "" ||
+      nivelVar == "" ||
+      emailVar == "" ||
+      senhaVar == "" ||
+      confirmacaoSenhaVar == ""
+    ) {
+      alert("Preencha todos os campos!")
+      finalizarAguardar();
+      return false;
+    }
+
+    // Enviando o valor da nova input
+    fetch("/usuarios/cadastrar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        // crie um atributo que recebe o valor recuperado aqui
+        // Agora vá para o arquivo routes/usuario.js
+        nomeServer: nomeVar,
+        nascServer: nascVar,
+        generoServer: generoVar,
+        nivelServer: nivelVar,
+        emailServer: emailVar,
+        senhaServer: senhaVar,
+        senhaConfServer: confirmacaoSenhaVar
+      }),
+    })
+      .then(function (resposta) {
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+          alert("Cadastro realizado com sucesso! Redirecionando para tela de Login...")
+
+          setTimeout(() => {
+            window.location = "login.html";
+          }, "2000");
+
+          limparFormulario();
+          finalizarAguardar();
+        } else {
+          throw "Houve um erro ao tentar realizar o cadastro!";
+        }
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+        finalizarAguardar();
+      });
+
+    return false;
+  }
+</script>
