@@ -5,9 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro</title>
     <link rel="stylesheet" href="css/cadastro.css">
+    <script src="./js/sessao.js"></script>
 </head>
 <body>
     <div class="background">
+        <div class="alerta_erro">
+          <div class="card_erro" id="cardErro">
+            <span id="mensagem_erro"></span>
+          </div>
+        </div>
         <div class="card">
             <div class="card-header">
                 <div class="logo"></div>
@@ -92,7 +98,11 @@
       senhaVar == "" ||
       confirmacaoSenhaVar == ""
     ) {
-      alert("Preencha todos os campos!")
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML =
+        `<b>Atenção!</b><br><br>
+        Para realizar o cadastro você deve preencher todos os campos!`;
+
       finalizarAguardar();
       return false;
     }

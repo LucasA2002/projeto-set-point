@@ -76,6 +76,7 @@ body {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  margin-right: 80px;
 }
 
 /* botoes login e cadastro */
