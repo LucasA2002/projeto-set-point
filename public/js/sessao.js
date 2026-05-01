@@ -7,8 +7,10 @@ function validarSessao() {
 
     if (email != null && nome != null) {
         b_usuario.innerHTML = nome;
+        console.log("entrou no if do nome")
     } else {
         window.location = "../login.html";
+        console.log("redirecionou pro login")
     }
 }
 
