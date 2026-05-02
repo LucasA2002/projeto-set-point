@@ -25,157 +25,285 @@
     <!-- conteudo -->
     <div class="background">
         <div class="container">
-        <div class="card">
-            <div class="texto-intro">
-                <h1>Escolha seu grupo</h1>
-                <p>Crie um novo grupo ou entre em um existente usando um código de convite!</p>
-            </div>
-        </div>
-
-        <!-- cards -->
-        <div class="top-grid">
-            <!-- como funciona -->
-            <div class="card como">
-                <div class="como-head">
-                    <h2>Como funciona</h2>
-                </div>
-    
-                <ol class="etapas">
-                    <li>
-                        <span class="circulo-etapa">1</span>
-                        <div>
-                            <p class="titulo-lista">Crie um grupo</p>
-                            <p class="texto2">Dê um nome ao seu grupo e comece a organização.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="circulo-etapa">2</span>
-                        <div>
-                            <p class="titulo-lista">Convide amigos com o código</p>
-                            <p class="texto2">Compartilhe o código de convite para eles entrarem.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="circulo-etapa">3</span>
-                        <div>
-                            <p class="titulo-lista">Organize seus torneios</p>
-                            <p class="texto2">Crie partidas, registre resultados e acompanhe o ranking.</p>
-                        </div>
-                    </li>
-                </ol>
-    
-            </div>
-
-            <!-- criar grupo -->
             <div class="card">
-                <div class="card-titulo">
-                    <div>
-                        <h2>Criar grupo</h2>
-                        <p class="texto2">Crie seu próprio grupo e convide amigos para jogar e organizar torneios.
-                        </p>
+                <div class="texto-intro">
+                    <h1>Escolha seu grupo</h1>
+                    <p>Crie um novo grupo ou entre em um existente usando um código de convite!</p>
+                </div>
+            </div>
+
+            <!-- cards -->
+            <div class="top-grid">
+                <!-- como funciona -->
+                <div class="card como">
+                    <div class="como-head">
+                        <h2>Como funciona</h2>
                     </div>
+
+                    <ol class="etapas">
+                        <li>
+                            <span class="circulo-etapa">1</span>
+                            <div>
+                                <p class="titulo-lista">Crie um grupo</p>
+                                <p class="texto2">Dê um nome ao seu grupo e comece a organização.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="circulo-etapa">2</span>
+                            <div>
+                                <p class="titulo-lista">Convide amigos com o código</p>
+                                <p class="texto2">Compartilhe o código de convite para eles entrarem.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="circulo-etapa">3</span>
+                            <div>
+                                <p class="titulo-lista">Organize seus torneios</p>
+                                <p class="texto2">Crie partidas, registre resultados e acompanhe o ranking.</p>
+                            </div>
+                        </li>
+                    </ol>
+
                 </div>
 
-                <label class="label">Nome do grupo</label>
-                <input class="input" type="text" placeholder="Ex: Amigos da SPTech " />
-
-                <button class="btn primaria">Criar grupo</button>
-
-                <p class="mensagem-convite">Ao criar, um código de convite será gerado automaticamente.</p>
-            </div>
-
-            <!-- Entrar em grupo -->
-            <div class="card">
-                <div class="card-titulo">
-                    <div>
-                        <h2>Entrar em um grupo</h2>
-                        <p class="texto2">Tem um código de convite? Insira abaixo para entrar no grupo.</p>
-                    </div>
-                </div>
-
-                <label class="label">Código do grupo</label>
-                <input class="input" type="text" placeholder="Ex: E4B7" />
-
-                <button class="btn primaria">Entrar no grupo</button>
-            </div>
-
-        </div>
-
-        <!-- Meus grupos -->
-        <section class="card tabela-card">
-            <div class="tabela-head">
-                <h2>Meus grupos</h2>
-            </div>
-
-            <div class="tabela">
-                <div class="tabela-row tabela-header">
-                    <div>Grupo</div>
-                    <div>Função</div>
-                    <div>Membros</div>
-                    <div>Código</div>
-                    <div>Ações</div>
-                </div>
-
-                <!-- linha 1 -->
-                <div class="tabela-row">
-                    <div class="grupo-celula">
+                <!-- criar grupo -->
+                <div class="card">
+                    <div class="card-titulo">
                         <div>
-                            <div class="grupo-nome">Amigos da SPTech</div>
-                            <div class="texto2 pequeno">Grupo da Faculdade.</div>
+                            <h2>Criar grupo</h2>
+                            <p class="texto2">Crie seu próprio grupo e convide amigos para jogar e organizar torneios.
+                            </p>
                         </div>
                     </div>
 
-                    <div><span class="tag">Administrador</span></div>
-                    <div class="texto2">12 membros</div>
-                    <div><span class="codigo">A7C9</span></div>
+                    <label class="label">Nome do grupo</label>
+                    <input class="input" id="ipt_nome_grupo" type="text" placeholder="Ex: Amigos da SPTech " />
 
-                    <div class="acoes">
-                        <button class="btn secundaria">Copiar Código</button>
-                        <button class="btn primaria">Acessar</button>
-                    </div>
+                    <button class="btn primaria" onclick="criarGrupo()">Criar grupo</button>
+
+                    <p class="mensagem-convite">Ao criar, um código de convite será gerado automaticamente.</p>
                 </div>
 
-                <!-- linha 2 -->
-                <div class="tabela-row">
-                    <div class="grupo-celula">
+                <!-- Entrar em grupo -->
+                <div class="card">
+                    <div class="card-titulo">
                         <div>
-                            <div class="grupo-nome">Desgarfados</div>
-                            <div class="texto2 pequeno">Só pedrada.</div>
+                            <h2>Entrar em um grupo</h2>
+                            <p class="texto2">Tem um código de convite? Insira abaixo para entrar no grupo.</p>
                         </div>
                     </div>
 
-                    <div><span class="tag">Membro</span></div>
-                    <div class="texto2">5 membros</div>
-                    <div><span class="codigo">D2F8</span></div>
+                    <label class="label">Código do grupo</label>
+                    <input class="input" id="ipt_codigo_grupo" type="text" placeholder="Ex: E4B7" />
 
-                    <div class="acoes">
-                        <button class="btn secundaria">Copiar Código</button>
-                        <button class="btn primaria">Acessar</button>
-                    </div>
+                    <button class="btn primaria" onclick="entrarGrupo()">Entrar no grupo</button>
                 </div>
 
-                <!-- linha 3 -->
-                <div class="tabela-row">
-                    <div class="grupo-celula">
-                        <div>
-                            <div class="grupo-nome">Mairiporã Cup</div>
-                            <div class="texto2 pequeno">Maior campeonato de todos os tempos.</div>
-                        </div>
-                    </div>
+            </div>
 
-                    <div><span class="tag">Administrador</span></div>
-                    <div class="texto2">24 membros</div>
-                    <div><span class="codigo">S9P1</span></div>
-
-                    <div class="acoes">
-                        <button class="btn secundaria">Copiar Código</button>
-                        <button class="btn primaria">Acessar</button>
-                    </div>
+            <!-- Meus grupos -->
+            <div class="card tabela-card">
+                <div class="tabela-head">
+                    <h2>Meus grupos</h2>
                 </div>
 
+                <div class="tabela" id="tabela-grupos">
+                    <div class="tabela-row tabela-header">
+                        <div>Grupo</div>
+                        <div>Função</div>
+                        <div>Membros</div>
+                        <div>Código</div>
+                        <div>Ações</div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 </body>
+<script>
+    function criarGrupo() {
+        // pega valor do input
+        let nomeGrupoVar = document.getElementById("ipt_nome_grupo").value;
+        let idUsuarioVar = sessionStorage.ID_USUARIO;
+
+        // validaçao
+        if (nomeGrupoVar == "" || idUsuarioVar == undefined) {
+            alert("Atenção! Digite o nome do grupo e esteja logado para criar.");
+            return false;
+        }
+
+        // chama api
+        fetch("/grupos/criar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                nomeGrupoServer: nomeGrupoVar,
+                idUsuarioServer: idUsuarioVar
+            })
+        })
+            .then(function (resposta) {
+                console.log("resposta criarGrupo: ", resposta);
+
+                if (resposta.ok) {
+                    return resposta.json();
+                } else {
+                    return resposta.text().then(function (texto) {
+                        throw texto;
+                    });
+                }
+            })
+            .then(function (json) {
+                console.log("JSON criarGrupo:", json);
+
+                alert("Grupo criado!");
+
+                // limpa input e recarrega a tabela
+                document.getElementById("ipt_nome_grupo").value = "";
+                listarMeusGrupos();
+            })
+            .catch(function (erro) {
+                console.log("#ERRO criarGrupo:", erro);
+                alert("Erro ao criar o grupo, tente novamente");
+            });
+
+        return false;
+    }
+
+    function entrarGrupo() {
+        // pega valores do input
+        var codigoVar = document.getElementById("ipt_codigo_grupo").value;
+        var idUsuarioVar = sessionStorage.ID_USUARIO;
+
+        // validaçao
+        if (codigoVar == "" || idUsuarioVar == undefined) {
+            alert("Atenção! Digite o código do grupo e esteja logado para entrar.");
+            return false;
+        }
+
+        fetch("/grupos/entrar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                codigoServer: codigoVar,
+                idUsuarioServer: idUsuarioVar
+            })
+        })
+            .then(function (resposta) {
+                console.log("resposta entrarGrupo: ", resposta);
+
+                if (resposta.ok) {
+                    return resposta.json();
+                } else {
+                    return resposta.text().then(function (texto) {
+                        throw texto;
+                    });
+                }
+            })
+            .then(function (json) {
+                console.log("JSON entrarGrupo:", json);
+
+                alert("Você entrou no grupo!");
+
+                document.getElementById("ipt_codigo_grupo").value = "";
+                listarMeusGrupos();
+            })
+            .catch(function (erro) {
+                console.log("#ERRO entrarGrupo:", erro);
+                alert("Erro ao tentar entrar no grupo, verifique o código e tente novamente")
+            });
+
+        return false;
+    }
+
+    function listarMeusGrupos() {
+        let idUsuarioVar = sessionStorage.ID_USUARIO;
+
+        if (idUsuarioVar == undefined) {
+            alert("Você precisa estar logado para ver seus grupos.")
+            window.location = "../login.html"
+            return false;
+        }
+
+        fetch(`/grupos/${idUsuarioVar}`, { method: "GET" })
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    return resposta.json();
+                } else {
+                    return resposta.text().then(function (texto) {
+                        throw texto;
+                    });
+                }
+            })
+            .then(function (json) {
+                montarTabelaGrupos(json);
+            })
+            .catch(function (erro) {
+                console.log("#ERRO listarMeusGrupos:", erro);
+                alert("Erro ao carregar grupos: " + erro);
+            });
+
+        return false;
+    }
+
+
+    function montarTabelaGrupos(lista) {
+        let tabela = document.getElementById("tabela-grupos");
+
+        tabela.innerHTML = `
+            <div class="tabela-row tabela-header">
+            <div>Grupo</div>
+            <div>Função</div>
+            <div>Membros</div>
+            <div>Código</div>
+            <div>Ações</div>
+            </div>
+        `
+
+        if (lista.length == 0) {
+            tabela.innerHTML += `
+                <div class="tabela-row">
+                    <div class="texto2">Você ainda não participa de nenhum grupo.</div>
+                    <div></div><div></div><div></div><div></div>
+                </div>
+            `
+            return;
+        }
+
+        for (let i = 0; i < lista.length; i++) {
+            var grupo = lista[i]
+
+            let papelTexto = (grupo.papel == "admin") ? "Administrador" : "Membro"
+            let membrosTexto = (grupo.total_membros == undefined) ? "-" : grupo.total_membros + " Membro(s)";
+
+            tabela.innerHTML += `
+            <div class="tabela-row">
+                <div class="grupo-celula">
+                    <div>
+                        <div class="grupo-nome">${grupo.nome}</div>
+                        </div>
+                        </div>
+                        
+                        <div><span class="tag">${papelTexto}</span></div>
+                        <div class="texto2">${membrosTexto}</div>
+                        <div><span class="codigo">${grupo.codigo_convite}</span></div>
+                        
+                        <div class="acoes">
+                            <button class="btn secundaria" onclick="copiarCodigo('${grupo.codigo_convite}')">Copiar Código</button>
+                            <button class="btn primaria" onclick="acessarGrupo(${grupo.id_grupo})">Acessar</button>
+                            </div>
+                            </div>
+                            `;
+        }
+    }
+
+    function acessarGrupo(idGrupo) {
+        sessionStorage.ID_GRUPO_ATUAL = idGrupo;
+        window.location = "torneios.html";
+    }
+
+    // carrega os grupos ao abrir a pagina
+    window.onload = function () {
+        listarMeusGrupos();
+    };
+</script>
 </html>

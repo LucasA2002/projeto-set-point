@@ -7,7 +7,7 @@
     --plataforma: #ffffff;
     --texto: #0f172a;
     --texto2: #475569;
-    --borda: #0f172a;
+    --borda: #3c5b0a;
     --radius: 18px;
     --sombra: 0 5px 5px rgba(15, 23, 42, 0.10);
     --container: 1140px;
@@ -89,7 +89,9 @@ body {
 /* Layout */
 .background {
     /* background-color: #0e1f00 */
-    background-color: #1630001f
+    display: flex;
+    background-color: rgba(14, 41, 0, 0.233);
+    height: 100vh;
 }
 
 .container {

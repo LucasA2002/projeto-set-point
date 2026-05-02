@@ -58,7 +58,6 @@
     <script>
     
         function entrar() {
-            alert("Clique funcionando")
             aguardar();
     
             var emailVar = ipt_email.value;
@@ -79,7 +78,6 @@
             console.log("FORM LOGIN: ", emailVar);
             console.log("FORM SENHA: ", senhaVar);
     
-            console.log("VOU CHAMAR O FETCH AGORA");
             fetch("/usuarios/autenticar", {
                 method: "POST",
                 headers: {
@@ -106,7 +104,7 @@
                         console.log("CHEGUEI NO REDIRECT - VOU AGENDAR");
                         setTimeout(function () {
                             console.log("EXECUTANDO REDIRECT AGORA");
-                            window.location.href = "/dashboard/cards.html";
+                            window.location.href = "/dashboard/grupos.html";
                         }, 1000); // apenas para exibir o loading
     
                     });
