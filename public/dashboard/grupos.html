@@ -18,7 +18,7 @@
             <a class="nav-link" href="dashboard.html">DASHBOARD</a>
         </div>
         <div class="usuario">
-            <span class="user-nome">Olá, Lucas Alves!</span>
+            <span class="user-nome" id="user_nome">Olá, Lucas Alves!</span>
         </div>
     </div>
 
@@ -121,6 +121,12 @@
     </div>
 </body>
 <script>
+    function carregarNomeUsuario(){
+        let nome = sessionStorage.NOME_USUARIO
+        user_nome.innerHTML = `Olá, ${nome}!`;
+    }
+    
+
     function criarGrupo() {
         // pega valor do input
         let nomeGrupoVar = document.getElementById("ipt_nome_grupo").value;
@@ -169,6 +175,7 @@
         return false;
     }
 
+
     function entrarGrupo() {
         // pega valores do input
         var codigoVar = document.getElementById("ipt_codigo_grupo").value;
@@ -214,6 +221,7 @@
 
         return false;
     }
+
 
     function listarMeusGrupos() {
         let idUsuarioVar = sessionStorage.ID_USUARIO;
@@ -296,14 +304,16 @@
         }
     }
 
+
     function acessarGrupo(idGrupo) {
         sessionStorage.ID_GRUPO_ATUAL = idGrupo;
         window.location = "torneios.html";
     }
 
-    // carrega os grupos ao abrir a pagina
+    // carrega os grupos e mostra nome do usuario ao abrir a pagina
     window.onload = function () {
         listarMeusGrupos();
+        carregarNomeUsuario();
     };
 </script>
 </html>
