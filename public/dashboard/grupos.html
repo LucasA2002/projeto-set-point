@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grupos</title>
+    <link rel="stylesheet" href="../css/grupos.css">
+</head>
+
+<body>
+    <!-- header -->
+    <div class="header" id="header">
+        <div class="logo"></div>
+        <div class="navbar">
+            <a class="grupos" href="grupos.html">GRUPOS</a>
+            <a class="nav-link" href="torneios.html">TORNEIOS</a>
+            <a class="nav-link" href="dashboard.html">DASHBOARD</a>
+        </div>
+        <div class="usuario">
+            <span class="user-nome">Olá, Lucas Alves!</span>
+        </div>
+    </div>
+
+    <!-- conteudo -->
+    <div class="background">
+        <div class="container">
+        <div class="card">
+            <div class="texto-intro">
+                <h1>Escolha seu grupo</h1>
+                <p>Crie um novo grupo ou entre em um existente usando um código de convite!</p>
+            </div>
+        </div>
+
+        <!-- cards -->
+        <div class="top-grid">
+            <!-- como funciona -->
+            <div class="card como">
+                <div class="como-head">
+                    <h2>Como funciona</h2>
+                </div>
+    
+                <ol class="etapas">
+                    <li>
+                        <span class="circulo-etapa">1</span>
+                        <div>
+                            <p class="titulo-lista">Crie um grupo</p>
+                            <p class="texto2">Dê um nome ao seu grupo e comece a organização.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="circulo-etapa">2</span>
+                        <div>
+                            <p class="titulo-lista">Convide amigos com o código</p>
+                            <p class="texto2">Compartilhe o código de convite para eles entrarem.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="circulo-etapa">3</span>
+                        <div>
+                            <p class="titulo-lista">Organize seus torneios</p>
+                            <p class="texto2">Crie partidas, registre resultados e acompanhe o ranking.</p>
+                        </div>
+                    </li>
+                </ol>
+    
+            </div>
+
+            <!-- criar grupo -->
+            <div class="card">
+                <div class="card-titulo">
+                    <div>
+                        <h2>Criar grupo</h2>
+                        <p class="texto2">Crie seu próprio grupo e convide amigos para jogar e organizar torneios.
+                        </p>
+                    </div>
+                </div>
+
+                <label class="label">Nome do grupo</label>
+                <input class="input" type="text" placeholder="Ex: Amigos da SPTech " />
+
+                <button class="btn primaria">Criar grupo</button>
+
+                <p class="mensagem-convite">Ao criar, um código de convite será gerado automaticamente.</p>
+            </div>
+
+            <!-- Entrar em grupo -->
+            <div class="card">
+                <div class="card-titulo">
+                    <div>
+                        <h2>Entrar em um grupo</h2>
+                        <p class="texto2">Tem um código de convite? Insira abaixo para entrar no grupo.</p>
+                    </div>
+                </div>
+
+                <label class="label">Código do grupo</label>
+                <input class="input" type="text" placeholder="Ex: E4B7" />
+
+                <button class="btn primaria">Entrar no grupo</button>
+            </div>
+
+        </div>
+
+        <!-- Meus grupos -->
+        <section class="card tabela-card">
+            <div class="tabela-head">
+                <h2>Meus grupos</h2>
+            </div>
+
+            <div class="tabela">
+                <div class="tabela-row tabela-header">
+                    <div>Grupo</div>
+                    <div>Função</div>
+                    <div>Membros</div>
+                    <div>Código</div>
+                    <div>Ações</div>
+                </div>
+
+                <!-- linha 1 -->
+                <div class="tabela-row">
+                    <div class="grupo-celula">
+                        <div>
+                            <div class="grupo-nome">Amigos da SPTech</div>
+                            <div class="texto2 pequeno">Grupo da Faculdade.</div>
+                        </div>
+                    </div>
+
+                    <div><span class="tag">Administrador</span></div>
+                    <div class="texto2">12 membros</div>
+                    <div><span class="codigo">A7C9</span></div>
+
+                    <div class="acoes">
+                        <button class="btn secundaria">Copiar Código</button>
+                        <button class="btn primaria">Acessar</button>
+                    </div>
+                </div>
+
+                <!-- linha 2 -->
+                <div class="tabela-row">
+                    <div class="grupo-celula">
+                        <div>
+                            <div class="grupo-nome">Desgarfados</div>
+                            <div class="texto2 pequeno">Só pedrada.</div>
+                        </div>
+                    </div>
+
+                    <div><span class="tag">Membro</span></div>
+                    <div class="texto2">5 membros</div>
+                    <div><span class="codigo">D2F8</span></div>
+
+                    <div class="acoes">
+                        <button class="btn secundaria">Copiar Código</button>
+                        <button class="btn primaria">Acessar</button>
+                    </div>
+                </div>
+
+                <!-- linha 3 -->
+                <div class="tabela-row">
+                    <div class="grupo-celula">
+                        <div>
+                            <div class="grupo-nome">Mairiporã Cup</div>
+                            <div class="texto2 pequeno">Maior campeonato de todos os tempos.</div>
+                        </div>
+                    </div>
+
+                    <div><span class="tag">Administrador</span></div>
+                    <div class="texto2">24 membros</div>
+                    <div><span class="codigo">S9P1</span></div>
+
+                    <div class="acoes">
+                        <button class="btn secundaria">Copiar Código</button>
+                        <button class="btn primaria">Acessar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
