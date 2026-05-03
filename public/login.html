@@ -56,6 +56,10 @@
     </div>
 
     <script>
+        function limparFormulario() {
+            ipt_email.value = ""
+            ipt_senha.value = ""
+        }
     
         function entrar() {
             aguardar();
@@ -101,12 +105,11 @@
                         sessionStorage.ID_USUARIO = json.id_usuario;
                         console.log("Sessão:", sessionStorage.ID_USUARIO, sessionStorage.EMAIL_USUARIO);
     
-                        console.log("CHEGUEI NO REDIRECT - VOU AGENDAR");
                         setTimeout(function () {
-                            console.log("EXECUTANDO REDIRECT AGORA");
                             window.location.href = "/dashboard/grupos.html";
+                            limparFormulario();
+                            finalizarAguardar();
                         }, 1000); // apenas para exibir o loading
-    
                     });
     
                 } else {

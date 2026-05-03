@@ -80,8 +80,14 @@
 
 </html>
 <script>
-    function cadastrar() {
-        alert("Cadastro Efetuado!")
+    function limparFormulario() {
+        ipt_nome.value = ""
+        ipt_dtNasc.value = ""
+        slt_genero.value = ""
+        slt_nivel.value = ""
+        ipt_email.value = ""
+        ipt_senha.value = ""
+        ipt_senhaConf.value = ""
     }
 
     function cadastrar() {
@@ -110,7 +116,7 @@
             cardErro.style.display = "block";
             mensagem_erro.innerHTML =
                 `<h1>Atenção!</h1>
-        <p>Para realizar o cadastro você deve preencher todos os campos.</p>`;
+                <p>Para realizar o cadastro você deve preencher todos os campos.</p>`;
 
             finalizarAguardar();
             return false;
@@ -142,15 +148,14 @@
 
                     mensagem_erro.innerHTML =
                         `<h1>Cadastro realizado com sucesso!</h1>
-            <p>Redirecionando para tela de Login...</p>`;
-
+                        <p>Redirecionando para tela de Login...</p>`;
 
                     setTimeout(() => {
                         window.location = "login.html";
+                        limparFormulario();
+                        finalizarAguardar();
                     }, "2000");
 
-                    limparFormulario();
-                    finalizarAguardar();
                 } else {
                     throw "Houve um erro ao tentar realizar o cadastro!";
                 }
