@@ -297,7 +297,7 @@
                         
                         <div class="acoes">
                             <button class="btn secundaria" onclick="copiarCodigo('${grupo.codigo_convite}')">Copiar Código</button>
-                            <button class="btn primaria" onclick="acessarGrupo(${grupo.id_grupo})">Acessar</button>
+                            <button class="btn primaria" onclick="acessarGrupo(${grupo.id_grupo}, '${grupo.nome}', '${grupo.papel}')">Acessar</button>
                             </div>
                             </div>
                             `;
@@ -305,8 +305,10 @@
     }
 
 
-    function acessarGrupo(idGrupo) {
+    function acessarGrupo(idGrupo, nome, papel) {
         sessionStorage.ID_GRUPO_ATUAL = idGrupo;
+        sessionStorage.NOME_GRUPO_ATUAL = nome;
+        sessionStorage.PAPEL_USUARIO_NO_GRUPO = papel;
         window.location = "torneios.html";
     }
 

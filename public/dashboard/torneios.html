@@ -159,7 +159,7 @@
                     <input class="placar" type="number" min="0" max="3" placeholder="0">
                   </div>
                   <div class="jogador">
-                    <span class="jogador-nome">Rafael Bronzatti</span>
+                    <span class="jogador-nome">Yuri Vieira</span>
                     <input class="placar" type="number" min="0" max="3" placeholder="0">
                   </div>
                 </div>
@@ -229,7 +229,7 @@
     function carregarNomeUsuario() {
       var nome = sessionStorage.NOME_USUARIO;
       if (nome == undefined) nome = "Usuário";
-      document.getElementById("user_nome").innerHTML = "Olá, " + nome + "!";
+      document.getElementById("user_nome").innerHTML = `Olá, ${nome}!`;
     }
 
     // carregando contexto do grupo e configurando permissões de interface
@@ -240,7 +240,7 @@
       if (nomeGrupo == undefined) nomeGrupo = "Grupo selecionado";
       if (papel == undefined) papel = "membro";
 
-      document.getElementById("titulo_grupo").innerHTML = "Torneio - " + nomeGrupo;
+      document.getElementById("titulo_grupo").innerHTML = `Torneio - ${nomeGrupo} `;
       document.getElementById("selo_papel").innerHTML = (papel == "admin") ? "Admin" : "Membro";
 
       if (papel != "admin") {
@@ -248,10 +248,10 @@
         document.getElementById("btn_gerar_chave").disabled = true;
 
         var placares = document.querySelectorAll(".placar");
-        for (var i = 0; i < placares.length; i++) placares[i].disabled = true;
+        for (let i = 0; i < placares.length; i++) placares[i].disabled = true;
 
         var botoesMini = document.querySelectorAll(".botao-mini");
-        for (var j = 0; j < botoesMini.length; j++) botoesMini[j].disabled = true;
+        for (let j = 0; j < botoesMini.length; j++) botoesMini[j].disabled = true;
 
         document.getElementById("aviso_admin").innerHTML =
           "* Você está como membro. Apenas o admin pode iniciar o torneio e registrar resultados.";
@@ -259,9 +259,57 @@
     }
 
     // ações gerais do torneio (mockado por enquanto)
-    function criarTorneio() { alert("Criar torneio (mock)"); }
-    function gerarChave() { alert("Gerar chaveamento (mock)"); }
-    function registrarResultado(idPartida) { alert("Registrar resultado (mock) - partida " + idPartida); }
+    function criarTorneio() {
+        var nomeTorneioVar = document.getElementById("ipt_nome_torneio").value;
+        var idGrupoAtualVar = sessionStorage.ID_GRUPO_ATUAL
+
+        if (nomeTorneioVar == "") {
+            alert("Insira um nome para o torneio antes de iniciá-lo!");
+            return false;
+        }
+
+        console.log("NOME TORNEIO: ", nomeTorneioVar);
+        console.log("ID_GRUPO_ATUAL: ", idGrupoAtualVar);
+
+        fetch("/torneios/criar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nomeTorneioServer: nomeTorneioVar,
+                idGrupoAtualServer: idGrupoAtualVar
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO criarTorneio()!")
+
+            if (resposta.ok) {
+                console.log(resposta);
+                return resposta.json()
+            } else {
+                console.log("Houve um erro ao tentar realizar a criação do torneio!");
+                alert("Houve um erro ao tentar realizar a criação do torneio!")
+                return false;
+            }    
+        }).then(function (json) {
+                console.log("JSON criarTorneio", json);
+                alert("Torneio criado!");
+                ipt_nome_torneio.value = ''
+            })
+            .catch(function (erro) {
+                console.log(erro);
+            })
+
+        return false; 
+    }
+
+    function gerarChave() {
+      alert("Gerar chaveamento (mock)");
+    }
+
+    function registrarResultado(idPartida) { 
+      alert("Registrar resultado (mock) - partida " + idPartida); 
+    }
 
     window.onload = function () {
       carregarNomeUsuario();
