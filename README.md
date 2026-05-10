@@ -8,7 +8,6 @@ O objetivo do SetPoint é facilitar a vida de grupos de amigos que jogam tênis 
 - Acompanhar ranking do grupo
 
 ## Funcionalidades
-### MVP
 - Cadastro e login de usuários
 - Criação de grupos privados com código de convite
 - Cadastro de participantes no grupo
@@ -29,8 +28,3 @@ O objetivo do SetPoint é facilitar a vida de grupos de amigos que jogam tênis 
 ## Requisitos
 - Node.js
 - Banco MySQL rodando localmente
-
-## Como rodar o projeto
-```bash
-git clone <https://github.com/LucasA2002/projeto-set-point.git>
-cd projeto-set-point

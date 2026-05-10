@@ -1,0 +1,430 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
+
+:root {
+  --primaria: #3c5b0a;
+  --secundaria: #2f4807;
+  --fundo: #f6f7f2;
+  --plataforma: #ffffff6e;
+  --texto: #0f172a;
+  --texto2: #475569;
+  --borda: #3c5b0a;
+  --radius: 18px;
+  --sombra: 0 5px 5px rgba(15, 23, 42, 0.10);
+  --container: 1140px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--fundo);
+  color: var(--texto);
+}
+
+/* header */
+.header {
+  height: 80px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  background: var(--fundo);
+  border-bottom: 1px solid var(--borda);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.header a {
+  font-family: "Lato", sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  color: var(--texto);
+  transition: 0.2s;
+}
+
+/* navbar */
+.navbar {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin-right: 80px;
+}
+
+.header .torneios {
+  color: var(--primaria);
+}
+
+.header .nav-link {
+  color: var(--texto);
+}
+
+.header a:hover {
+  color: var(--secundaria);
+}
+
+/* logo */
+.logo {
+  width: 163px;
+  height: 45px;
+  background-image: url('../assets/imgs/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 80px;
+  margin-bottom: 10px;
+}
+
+/* nome do usuario */
+.user-nome {
+  font-weight: 700;
+}
+
+/* fundo e conteudo */
+.background {
+  display: flex;
+  min-height: 100vh;
+  /* background-color: rgba(14, 41, 0, 0.233); */
+  background-image: linear-gradient(rgba(41, 46, 39, 0.8), rgba(41, 46, 39, 0.8)), url('../assets/imgs/background-login-cadastro.png');
+  background-position: center;
+  background-size: cover;
+}
+
+.conteudo {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 26px 22px 50px 22px;
+}
+
+/* card base */
+.card {
+  background: var(--fundo);
+  border: 1px solid var(--borda);
+  border-radius: var(--radius);
+  box-shadow: var(--sombra);
+  padding: 18px;
+}
+
+/* header da página */
+.cabecalho-pagina {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cabecalho-esq h1 {
+  font-size: 32px;
+  color: var(--primaria);
+  margin-bottom: 6px;
+}
+
+.texto-secundario {
+  color: var(--texto2);
+}
+
+.pequeno {
+  font-size: 12px;
+}
+
+/* status */
+.cabecalho-dir {
+  display: flex;
+  gap: 10px;
+}
+
+.selo {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--borda);
+  background: rgba(194, 240, 90, 0.20);
+  color: var(--primaria);
+  font-weight: 900;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.selo.contorno {
+  background: transparent;
+  border: 1px solid rgba(15, 23, 42, 0.18);
+  color: var(--texto2);
+}
+
+/* grid principal */
+.grade-torneio {
+  display: grid;
+  grid-template-columns: 0.95fr 1.65fr;
+  gap: 18px;
+  margin-top: 18px;
+  align-items: start;
+}
+
+/* painel lateral */
+.painel-lateral h2 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.titulo-secao {
+  font-size: 14px;
+  margin: 10px 0 6px 0;
+  color: var(--texto);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.divisor {
+  height: 1px;
+  background: rgba(15, 23, 42, 0.12);
+  margin: 14px 0;
+}
+
+/* formulario do torneio */
+.rotulo {
+  display: block;
+  font-weight: 800;
+  font-size: 13px;
+  margin: 10px 0 6px 0;
+  color: var(--texto);
+}
+
+.campo {
+  width: 100%;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.25);
+  padding: 0 12px;
+  outline: none;
+  margin-bottom: 10px;
+}
+
+.campo:focus {
+  border-color: rgba(60, 91, 10, 0.55);
+  box-shadow: 0 0 0 3px rgba(194, 240, 90, 0.25);
+}
+
+/* caixa de info dos participantes */
+.caixa-info {
+  border: 1px solid var(--borda-neutra);
+  border-radius: 14px;
+  background: rgba(246, 247, 242, 0.6);
+  padding: 12px;
+  margin: 10px 0 12px 0;
+}
+
+.linha-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 0;
+}
+
+.rotulo-info {
+  font-weight: 900;
+  font-size: 12px;
+  color: var(--texto2);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.valor-info {
+  font-weight: 900;
+  color: var(--primaria);
+}
+
+.aviso {
+  margin-top: 10px;
+}
+
+/* botões */
+.botao {
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(60, 91, 10, 0.22);
+  font-weight: 900;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.15s;
+  margin-right: 10px;
+}
+
+.botao.principal {
+  background: var(--primaria);
+  color: #fff;
+  border-color: rgba(60, 91, 10, 0.25);
+}
+
+.botao.principal:hover {
+  background: var(--secundaria);
+}
+
+.botao:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* painel do chaveamento */
+.painel-chaveamento h2 {
+  font-size: 20px;
+}
+
+.cabecalho-chave {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* KPIs */
+.grade-kpis {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.kpi-card {
+  border: 1px solid var(--borda-neutra);
+  border-radius: 14px;
+  background: var(--plataforma);
+  padding: 12px;
+  text-align: center;
+}
+
+.kpi-titulo {
+  font-size: 12px;
+  color: var(--texto2);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.kpi-valor {
+  font-size: 26px;
+  color: var(--primaria);
+  font-weight: 900;
+  margin-top: 6px;
+}
+
+/* chaveamento */
+.chaveamento {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.rodada {
+  border: 1px solid var(--borda-neutra);
+  border-radius: 14px;
+  background: var(--plataforma);
+  padding: 12px;
+}
+
+.rodada-titulo {
+  font-weight: 900;
+  color: var(--texto);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 12px;
+}
+
+.partida {
+  background: #fff;
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  border-radius: 14px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.partida-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.partida-id {
+  font-weight: 900;
+  color: var(--texto);
+  font-size: 13px;
+}
+
+/* etiquetas */
+.etiqueta {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(194, 240, 90, 0.22);
+  border: 1px solid rgba(60, 91, 10, 0.18);
+  color: var(--primaria);
+  font-weight: 900;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.etiqueta.contorno {
+  background: transparent;
+  color: var(--texto2);
+  border: 1px solid rgba(15, 23, 42, 0.18);
+}
+
+/* jogadores e placar */
+.jogadores {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.jogador {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.jogador-nome {
+  font-weight: 800;
+  color: var(--texto);
+  font-size: 13px;
+}
+
+.placar {
+  width: 70px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid rgba(15, 23, 42, 0.25);
+  outline: none;
+  text-align: center;
+  font-weight: 900;
+  color: var(--primaria);
+}
+
+.placar:disabled {
+  opacity: 0.6;
+}
+
+.botao-mini {
+  margin-top: 12px;
+  width: 100%;
+  height: 34px;
+  font-size: 12px;
+}
+
+/* estados das partidas */
+.partida.bloqueada {
+  opacity: 0.75;
+}
+
+.partida.pendente {
+  border-color: rgba(60, 91, 10, 0.25);
+}

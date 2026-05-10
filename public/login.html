@@ -115,13 +115,15 @@
                 } else {
     
                     console.log("Houve um erro ao tentar realizar o login!");
-    
-                    resposta.text().then(texto => {
-                        console.error(texto);
-                        finalizarAguardar(texto);
-                    });
+
+                    cardErro.style.display = "block"
+                    mensagem_erro.innerHTML =
+                    `<h1>Atenção!</h1>
+                    <p>Email ou Senha estão incorretos.</p>`;
+                    limparFormulario();
+                    finalizarAguardar();
+                    return false;
                 }
-    
             }).catch(function (erro) {
                 console.log(erro);
             })

@@ -54,7 +54,8 @@
                     <input type="email" placeholder="nome@email.com" name="email" id="ipt_email" required>
 
                     <p>Senha:</p>
-                    <input type="password" placeholder="Sua Senha" name="senha" id="ipt_senha" required>
+                    <input oninput="validar()" type="password" placeholder="Sua Senha" name="senha" id="ipt_senha" required>
+                    <div id="validacao" class="validacao"></div>
 
                     <p>Confirme a sua Senha:</p>
                     <input type="password" placeholder="Confirme Sua Senha" name="senhaConf" id="ipt_senhaConf"
@@ -90,18 +91,56 @@
         ipt_senhaConf.value = ""
     }
 
-    function cadastrar() {
-        // aguardar();
+    function validar() {
+        let senha = ipt_senha.value
+        let senhaConfirmada = ipt_senhaConf.value
+        let tamanho = senha.length
+        let senhaMaiuscula = senha.toUpperCase()
+        let senhaMinuscula = senha.toLowerCase()
+        let especial = ['!', '@', '#', '$', '%', '&', '*', '~', ';', '.', ',', '/', '+', '-', '=', '|']
+        let temEspecial = false
+        let validacaoFeita = false
 
-        //Recupere o valor da nova input pelo nome do id
-        // Agora vá para o método fetch logo abaixo
-        var nomeVar = ipt_nome.value;
-        var nascVar = ipt_dtNasc.value;
-        var generoVar = slt_genero.value;
-        var nivelVar = slt_nivel.value;
-        var emailVar = ipt_email.value;
-        var senhaVar = ipt_senha.value;
-        var confirmacaoSenhaVar = ipt_senhaConf.value;
+
+        if (tamanho < 8) {
+            validacao.innerHTML = `A senha precisa ter no mínimo 8 caracteres`
+        } else if (senha == senhaMaiuscula) {
+            validacao.innerHTML = 'A senha precisa conter ao menos uma letra minúscula'
+        } else if (senha == senhaMinuscula) {
+            validacao.innerHTML = 'A senha precisa conter ao menos uma letra maiúscula'
+        } else {
+            for (let i = 0; i < tamanho; i++) {
+                if (especial.includes(senha[i])) {
+                    temEspecial = true;
+                    break;
+                }
+            }
+
+            if (!temEspecial) {
+                validacao.innerHTML = 'A senha precisa ter pelo menos um caractere especial'
+            } else {
+                validacao.innerHTML = ``
+                validacaoFeita = true
+            }
+        }
+
+        return validacaoFeita;
+    }
+
+    function cadastrar() {
+        aguardar();
+
+        let nomeVar = ipt_nome.value;
+        let nascVar = ipt_dtNasc.value;
+        let generoVar = slt_genero.value;
+        let nivelVar = slt_nivel.value;
+        let emailVar = ipt_email.value;
+        let senhaVar = ipt_senha.value;
+        let confirmacaoSenhaVar = ipt_senhaConf.value;
+        let verificacaoArroba = emailVar.indexOf('@')
+        let verificacaoPonto = emailVar.indexOf('.')
+
+        var validacaoFeita = validar();
 
         // Verificando se há algum campo em branco
         if (
@@ -120,51 +159,75 @@
 
             finalizarAguardar();
             return false;
-        }
-
-        // Enviando o valor da nova input
-        fetch("/usuarios/cadastrar", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                // crie um atributo que recebe o valor recuperado aqui
-                // Agora vá para o arquivo routes/usuario.js
-                nomeServer: nomeVar,
-                nascServer: nascVar,
-                generoServer: generoVar,
-                nivelServer: nivelVar,
-                emailServer: emailVar,
-                senhaServer: senhaVar,
-                senhaConfServer: confirmacaoSenhaVar
-            }),
-        })
-            .then(function (resposta) {
-                console.log("resposta: ", resposta);
-
-                if (resposta.ok) {
-                    cardErro.style.display = "block";
-
-                    mensagem_erro.innerHTML =
-                        `<h1>Cadastro realizado com sucesso!</h1>
-                        <p>Redirecionando para tela de Login...</p>`;
-
-                    setTimeout(() => {
-                        window.location = "login.html";
-                        limparFormulario();
-                        finalizarAguardar();
-                    }, "2000");
-
-                } else {
-                    throw "Houve um erro ao tentar realizar o cadastro!";
-                }
-            })
-            .catch(function (resposta) {
-                console.log(`#ERRO: ${resposta}`);
+        } else {
+            if (verificacaoArroba == -1 || verificacaoPonto == -1) {
+                cardErro.style.display = "block";
+                mensagem_erro.innerHTML =
+                    `<h1>Atenção!</h1>
+                    <p>Insira um email válido.</p>`;
                 finalizarAguardar();
-            });
-
-        return false;
+                return false;
+            } else if (senhaVar != confirmacaoSenhaVar){
+                cardErro.style.display = "block";
+                mensagem_erro.innerHTML =
+                    `<h1>Atenção!</h1>
+                    <p>As senhas não se coincidem.</p>`;
+                finalizarAguardar();
+                return false;
+            } else if (!validacaoFeita){
+                cardErro.style.display = "block";
+                mensagem_erro.innerHTML =
+                    `<h1>Atenção!</h1>
+                    <p>A senha deve cumprir os requisitos</p>`;
+                finalizarAguardar();
+                return false;
+            } else {
+                // Enviando o valor da nova input
+                fetch("/usuarios/cadastrar", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        // crie um atributo que recebe o valor recuperado aqui
+                        // Agora vá para o arquivo routes/usuario.js
+                        nomeServer: nomeVar,
+                        nascServer: nascVar,
+                        generoServer: generoVar,
+                        nivelServer: nivelVar,
+                        emailServer: emailVar,
+                        senhaServer: senhaVar,
+                        senhaConfServer: confirmacaoSenhaVar
+                    }),
+                })
+                    .then(function (resposta) {
+                        console.log("resposta: ", resposta);
+        
+                        if (resposta.ok) {
+                            cardErro.style.display = "block";
+        
+                            mensagem_erro.innerHTML =
+                                `<h1>Cadastro realizado com sucesso!</h1>
+                                <p>Redirecionando para tela de Login...</p>`;
+        
+                            setTimeout(() => {
+                                window.location = "login.html";
+                                limparFormulario();
+                                finalizarAguardar();
+                            }, "2000");
+        
+                        } else {
+                            throw "Houve um erro ao tentar realizar o cadastro!";
+                        }
+                    })
+                    .catch(function (resposta) {
+                        console.log(`#ERRO: ${resposta}`);
+                        finalizarAguardar();
+                    });
+        
+                return false;
+            }
+        }
     }
+
 </script>
