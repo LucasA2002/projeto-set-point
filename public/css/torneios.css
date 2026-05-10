@@ -50,22 +50,6 @@ body {
   transition: 0.2s;
 }
 
-/* navbar */
-.navbar {
-  display: flex;
-  gap: 18px;
-  align-items: center;
-  margin-right: 80px;
-}
-
-.header .torneios {
-  color: var(--primaria);
-}
-
-.header .nav-link {
-  color: var(--texto);
-}
-
 .header a:hover {
   color: var(--secundaria);
 }
@@ -82,7 +66,30 @@ body {
   margin-bottom: 10px;
 }
 
+/* navbar */
+.navbar {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin-right: 80px;
+}
+
+.header .torneios {
+  color: var(--primaria);
+}
+
+.header .nav-link {
+  color: var(--texto);
+}
+
 /* nome do usuario */
+.usuario {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 140px;
+}
+
 .user-nome {
   font-weight: 700;
 }
@@ -91,7 +98,6 @@ body {
 .background {
   display: flex;
   min-height: 100vh;
-  /* background-color: rgba(14, 41, 0, 0.233); */
   background-image: linear-gradient(rgba(41, 46, 39, 0.8), rgba(41, 46, 39, 0.8)), url('../assets/imgs/background-login-cadastro.png');
   background-position: center;
   background-size: cover;
@@ -117,6 +123,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.cabecalho-esq h1 {
+  font-size: 32px;
+  color: var(--primaria);
+  margin-bottom: 6px;
 }
 
 .cabecalho-esq h1 {
@@ -210,9 +222,8 @@ body {
   box-shadow: 0 0 0 3px rgba(194, 240, 90, 0.25);
 }
 
-/* caixa de info dos participantes */
+/* caixa de informacao dos participantes */
 .caixa-info {
-  border: 1px solid var(--borda-neutra);
   border-radius: 14px;
   background: rgba(246, 247, 242, 0.6);
   padding: 12px;
@@ -243,7 +254,7 @@ body {
   margin-top: 10px;
 }
 
-/* botões */
+/* botoes */
 .botao {
   height: 38px;
   padding: 0 14px;
@@ -271,160 +282,55 @@ body {
   cursor: not-allowed;
 }
 
-/* painel do chaveamento */
-.painel-chaveamento h2 {
+/* painel partidas */
+.painel-partidas h2 {
   font-size: 20px;
-}
-
-.cabecalho-chave {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-/* KPIs */
-.grade-kpis {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 12px;
-  margin-top: 12px;
-}
-
-.kpi-card {
-  border: 1px solid var(--borda-neutra);
-  border-radius: 14px;
-  background: var(--plataforma);
-  padding: 12px;
-  text-align: center;
-}
-
-.kpi-titulo {
-  font-size: 12px;
-  color: var(--texto2);
-  font-weight: 900;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.kpi-valor {
-  font-size: 26px;
-  color: var(--primaria);
-  font-weight: 900;
-  margin-top: 6px;
-}
-
-/* chaveamento */
-.chaveamento {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 14px;
-  margin-top: 14px;
-}
-
-.rodada {
-  border: 1px solid var(--borda-neutra);
-  border-radius: 14px;
-  background: var(--plataforma);
-  padding: 12px;
-}
-
-.rodada-titulo {
-  font-weight: 900;
   color: var(--texto);
-  margin-bottom: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-size: 12px;
 }
 
-.partida {
-  background: #fff;
-  border: 1px solid rgba(15, 23, 42, 0.10);
-  border-radius: 14px;
-  padding: 12px;
-  margin-bottom: 12px;
-}
-
-.partida-topo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.partida-id {
-  font-weight: 900;
-  color: var(--texto);
-  font-size: 13px;
-}
-
-/* etiquetas */
-.etiqueta {
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(194, 240, 90, 0.22);
-  border: 1px solid rgba(60, 91, 10, 0.18);
-  color: var(--primaria);
-  font-weight: 900;
-  font-size: 11px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.etiqueta.contorno {
-  background: transparent;
-  color: var(--texto2);
-  border: 1px solid rgba(15, 23, 42, 0.18);
-}
-
-/* jogadores e placar */
-.jogadores {
+.lista-partidas {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
-.jogador {
+/* lista das partidas */
+.titulo-rodada {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--primaria);
+  margin-bottom: 4px;
+}
+
+.partida-simples {
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  padding: 14px 16px;
+  background-color: var(--plataforma);
+}
+
+.partida-cabecalho {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
 }
 
-.jogador-nome {
-  font-weight: 800;
-  color: var(--texto);
-  font-size: 13px;
-}
-
-.placar {
-  width: 70px;
-  height: 34px;
-  border-radius: 10px;
-  border: 1px solid rgba(15, 23, 42, 0.25);
-  outline: none;
-  text-align: center;
-  font-weight: 900;
+.partida-cabecalho strong {
   color: var(--primaria);
 }
 
-.placar:disabled {
-  opacity: 0.6;
-}
-
-.botao-mini {
-  margin-top: 12px;
-  width: 100%;
-  height: 34px;
+.partida-cabecalho span {
   font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background-color: var(--plataforma);
+  color: var(--primaria);
+  font-weight: 800;
 }
 
-/* estados das partidas */
-.partida.bloqueada {
-  opacity: 0.75;
-}
-
-.partida.pendente {
-  border-color: rgba(60, 91, 10, 0.25);
+.partida-simples p {
+  margin: 0;
+  font-size: 16px;
+  color: #222;
 }

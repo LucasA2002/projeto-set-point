@@ -11,9 +11,9 @@ O objetivo do SetPoint é facilitar a vida de grupos de amigos que jogam tênis 
 - Cadastro e login de usuários
 - Criação de grupos privados com código de convite
 - Cadastro de participantes no grupo
-- Sorteio de chaveamento por bracket
+- Sorteio de chaveamento mata-mata
 - Registro de partidas e resultados
-- Leaderboard (ranking por pontos e vitórias)
+- Dashboard com dados sobre os torneios do grupo
 
 ## Stack
 - Frontend: HTML + CSS + JavaScript

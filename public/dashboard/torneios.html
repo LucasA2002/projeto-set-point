@@ -1,320 +1,328 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Torneios</title>
-  <link rel="stylesheet" href="../css/torneios.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Torneios</title>
+    <link rel="stylesheet" href="../css/torneios.css">
 </head>
 
 <body>
-  <!-- header -->
+    <!-- header -->
     <div class="header" id="header">
         <div class="logo"></div>
+
         <div class="navbar">
             <a class="nav-link" href="grupos.html">GRUPOS</a>
             <a class="torneios" href="torneios.html">TORNEIOS</a>
             <a class="nav-link" href="dashboard.html">DASHBOARD</a>
         </div>
+
         <div class="usuario">
-            <span class="user-nome" id="user_nome">Olá, Lucas Alves!</span>
+            <span class="user-nome" id="user_nome">Olá, Usuário!</span>
         </div>
     </div>
 
-  <!-- conteudo -->
-  <div class="background">
-    <div class="conteudo">
+    <!-- conteudo -->
+    <div class="background">
+        <div class="conteudo">
 
-      <!-- header da pagina -->
-      <div class="cabecalho-pagina card">
-        <div class="cabecalho-esq">
-          <h1 id="titulo_grupo">Torneio do Grupo</h1>
-          <p class="texto-secundario" id="subtitulo_grupo">Visualize o torneio atual e registre resultados (admin).</p>
+            <!-- header da pagina -->
+            <div class="cabecalho-pagina card">
+                <div class="cabecalho-esq">
+                    <h1 id="titulo_grupo">Torneios do grupo</h1>
+                    <p class="texto-secundario" id="subtitulo_grupo">
+                        Crie um torneio e gere os confrontos iniciais entre os membros do grupo.
+                    </p>
+                </div>
+
+                <div class="cabecalho-dir">
+                    <span class="selo" id="selo_status">Carregando</span>
+                    <span class="selo contorno" id="selo_papel">Membro</span>
+                </div>
+            </div>
+
+            <!-- layout principal -->
+            <div class="grade-torneio">
+
+                <!-- card de gerenciamento -->
+                <div class="card painel-lateral">
+                    <h2>Gerenciar torneio</h2>
+
+                    <p class="texto-secundario">
+                        O torneio será criado no formato mata-mata. <br>
+                        Para iniciar o torneio, garanta que seu grupo tem um número par de membros, com no máximo 4
+                        membros.
+                    </p>
+
+                    <div class="divisor"></div>
+
+                    <h3 class="titulo-secao">Criar torneio</h3>
+
+                    <label class="rotulo">Nome do torneio</label>
+                    <input class="campo" id="ipt_nome_torneio" type="text" placeholder="Ex: Campeonato SetPoint">
+
+                    <button class="botao principal" id="btn_criar_torneio" onclick="criarTorneio()">
+                        Criar torneio
+                    </button>
+
+                    <div class="divisor"></div>
+
+                    <h3 class="titulo-secao">Participantes</h3>
+
+                    <div class="caixa-info">
+                        <div class="linha-info">
+                            <span class="rotulo-info">Participantes</span>
+                            <span class="valor-info">Todos os membros</span>
+                        </div>
+
+                        <div class="linha-info">
+                            <span class="rotulo-info">Formato</span>
+                            <span class="valor-info">Mata-mata</span>
+                        </div>
+                    </div>
+
+                    <button class="botao principal" id="btn_gerar_chave" onclick="gerarChaveamento()">
+                        Gerar chaveamento
+                    </button>
+
+                    <p class="texto-secundario pequeno aviso" id="aviso_admin">
+                        Apenas administradores podem criar torneios e gerar chaveamentos.
+                    </p>
+                </div>
+
+                <!-- card de partidas -->
+                <div class="card painel-partidas">
+                    <div class="cabecalho-pagina">
+                        <div>
+                            <h2>Partidas geradas</h2>
+                        </div>
+                    </div>
+
+                    <div class="divisor"></div>
+
+                    <div id="lista_partidas" class="lista-partidas">
+                        <p class="texto-secundario">Nenhuma partida gerada ainda.</p>
+                    </div>
+                </div>
+
+            </div>
         </div>
-
-        <div class="cabecalho-dir">
-          <span class="selo" id="selo_status">Sem torneio</span>
-          <span class="selo contorno" id="selo_papel">Membro</span>
-        </div>
-      </div>
-
-      <!-- grid principal -->
-      <div class="grade-torneio">
-
-        <!-- card lateral -->
-        <div class="card painel-lateral">
-          <h2>Como funciona (Mata-mata)</h2>
-          <p class="texto-secundario">
-            O torneio é no formato <b>eliminação simples</b>. Ao gerar a chave, as partidas são criadas e os
-            vencedores avançam para a próxima fase.
-          </p>
-
-          <div class="divisor"></div>
-
-          <!-- uso do admin -->
-          <h3 class="titulo-secao">Ações do Admin</h3>
-          <p class="texto-secundario pequeno">
-            Se você for o administrador do grupo, poderá criar o torneio e gerar a chave.
-          </p>
-
-          <label class="rotulo">Nome do torneio</label>
-          <input class="campo" id="ipt_nome_torneio" type="text" placeholder="Ex: Campeonato SPTech" />
-
-          <button class="botao principal" id="btn_criar_torneio" onclick="criarTorneio()">
-            Criar torneio
-          </button>
-
-          <div class="divisor"></div>
-
-          <!-- participantes -->
-          <h3 class="titulo-secao">Participantes</h3>
-          <p class="texto-secundario pequeno">
-            Os participantes do torneio serão <b>todos os membros do grupo</b>.
-          </p>
-
-          <div class="caixa-info">
-            <div class="linha-info">
-              <span class="rotulo-info">Total de membros (grupo)</span>
-              <span class="valor-info" id="info_total_membros">-</span>
-            </div>
-            <div class="linha-info">
-              <span class="rotulo-info">Participantes do torneio</span>
-              <span class="valor-info" id="info_participantes">Todos</span>
-            </div>
-          </div>
-
-          <button class="botao principal" id="btn_gerar_chave" onclick="gerarChave()">
-            Gerar chaveamento
-          </button>
-
-          <p class="texto-secundario pequeno aviso" id="aviso_admin">
-            * Apenas o admin pode criar o torneio e gerar a chave.
-          </p>
-        </div>
-
-        <!-- card chaveamento -->
-        <div class="card painel-chaveamento">
-          <div class="cabecalho-chave">
-            <h2>Chaveamento</h2>
-            <p class="texto-secundario pequeno">Clique em uma partida para registrar o resultado (admin).</p>
-          </div>
-
-          <!-- KPIs -->
-          <div class="grade-kpis">
-            <div class="kpi-card">
-              <p class="kpi-titulo">Partidas</p>
-              <p class="kpi-valor" id="kpi_total">0</p>
-            </div>
-            <div class="kpi-card">
-              <p class="kpi-titulo">Finalizadas</p>
-              <p class="kpi-valor" id="kpi_finalizadas">0</p>
-            </div>
-            <div class="kpi-card">
-              <p class="kpi-titulo">Pendentes</p>
-              <p class="kpi-valor" id="kpi_pendentes">0</p>
-            </div>
-            <div class="kpi-card">
-              <p class="kpi-titulo">Progresso</p>
-              <p class="kpi-valor" id="kpi_progresso">0%</p>
-            </div>
-          </div>
-
-          <div class="divisor"></div>
-
-          <!-- chaveamento visual (mockado)-->
-          <div class="chaveamento" id="chaveamento">
-            <!-- rodada 1 -->
-            <div class="rodada">
-              <div class="rodada-titulo">Rodada 1</div>
-
-              <div class="partida pendente">
-                <div class="partida-topo">
-                  <span class="partida-id">Jogo 1</span>
-                  <span class="etiqueta">Pendente</span>
-                </div>
-
-                <div class="jogadores">
-                  <div class="jogador">
-                    <span class="jogador-nome">Lucas Alves</span>
-                    <input class="placar" type="number" min="0" max="3" placeholder="0">
-                  </div>
-                  <div class="jogador">
-                    <span class="jogador-nome">Nathan Fioravanti</span>
-                    <input class="placar" type="number" min="0" max="3" placeholder="0">
-                  </div>
-                </div>
-
-                <button class="botao principal botao-mini" onclick="registrarResultado(1)">Salvar</button>
-              </div>
-
-              <div class="partida pendente">
-                <div class="partida-topo">
-                  <span class="partida-id">Jogo 2</span>
-                  <span class="etiqueta">Pendente</span>
-                </div>
-
-                <div class="jogadores">
-                  <div class="jogador">
-                    <span class="jogador-nome">Larissa Cardoso</span>
-                    <input class="placar" type="number" min="0" max="3" placeholder="0">
-                  </div>
-                  <div class="jogador">
-                    <span class="jogador-nome">Yuri Vieira</span>
-                    <input class="placar" type="number" min="0" max="3" placeholder="0">
-                  </div>
-                </div>
-
-                <button class="botao principal botao-mini" onclick="registrarResultado(2)">Salvar</button>
-              </div>
-            </div>
-
-            <!-- semifinal -->
-            <div class="rodada">
-              <div class="rodada-titulo">Semifinal</div>
-
-              <div class="partida bloqueada">
-                <div class="partida-topo">
-                  <span class="partida-id">Jogo 3</span>
-                  <span class="etiqueta contorno">Aguardando</span>
-                </div>
-
-                <div class="jogadores">
-                  <div class="jogador">
-                    <span class="jogador-nome">Vencedor Jogo 1</span>
-                    <input class="placar" type="number" min="0" max="3" placeholder="0" disabled>
-                  </div>
-                  <div class="jogador">
-                    <span class="jogador-nome">Vencedor Jogo 2</span>
-                    <input class="placar" type="number" min="0" max="3" placeholder="0" disabled>
-                  </div>
-                </div>
-
-                <button class="botao principal botao-mini" disabled>Salvar</button>
-              </div>
-            </div>
-
-            <!-- final -->
-            <div class="rodada">
-              <div class="rodada-titulo">Final</div>
-
-              <div class="partida bloqueada">
-                <div class="partida-topo">
-                  <span class="partida-id">Jogo 4</span>
-                  <span class="etiqueta contorno">Aguardando</span>
-                </div>
-
-                <div class="jogadores">
-                  <div class="jogador">
-                    <span class="jogador-nome">Finalista 1</span>
-                    <input class="placar" type="number" min="0" max="3" placeholder="0" disabled>
-                  </div>
-                  <div class="jogador">
-                    <span class="jogador-nome">Finalista 2</span>
-                    <input class="placar" type="number" min="0" max="3" placeholder="0" disabled>
-                  </div>
-                </div>
-
-                <button class="botao principal botao-mini" disabled>Salvar</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
     </div>
-  </div>
 
-  <script>
-    // carregando identificação do usuário logado
-    function carregarNomeUsuario() {
-      var nome = sessionStorage.NOME_USUARIO;
-      if (nome == undefined) nome = "Usuário";
-      document.getElementById("user_nome").innerHTML = `Olá, ${nome}!`;
-    }
+    <script>
+        // setando idTorneioAtual inicialmente como NULL
+        var idTorneioAtual = null;
 
-    // carregando contexto do grupo e configurando permissões de interface
-    function carregarContextoGrupo() {
-      var nomeGrupo = sessionStorage.NOME_GRUPO_ATUAL;
-      var papel = sessionStorage.PAPEL_USUARIO_NO_GRUPO;
+        function carregarNomeUsuario() {
+            var nome = sessionStorage.NOME_USUARIO;
 
-      if (nomeGrupo == undefined) nomeGrupo = "Grupo selecionado";
-      if (papel == undefined) papel = "membro";
+            if (nome == undefined) {
+                nome = "indefinido";
+            }
+            document.getElementById("user_nome").innerHTML = `Olá, ${nome}!`;
+        }
 
-      document.getElementById("titulo_grupo").innerHTML = `Torneio - ${nomeGrupo} `;
-      document.getElementById("selo_papel").innerHTML = (papel == "admin") ? "Admin" : "Membro";
+        function carregarContextoGrupo() {
+            var idGrupo = sessionStorage.ID_GRUPO_ATUAL;
+            var nomeGrupo = sessionStorage.NOME_GRUPO_ATUAL;
+            var papel = sessionStorage.PAPEL_USUARIO_NO_GRUPO;
 
-      if (papel != "admin") {
-        document.getElementById("btn_criar_torneio").disabled = true;
-        document.getElementById("btn_gerar_chave").disabled = true;
+            if (idGrupo == undefined) {
+                alert("Nenhum grupo selecionado.");
+                return false;
+            }
 
-        var placares = document.querySelectorAll(".placar");
-        for (let i = 0; i < placares.length; i++) placares[i].disabled = true;
+            if (nomeGrupo == undefined) {
+                nomeGrupo = "Grupo selecionado";
+            }
 
-        var botoesMini = document.querySelectorAll(".botao-mini");
-        for (let j = 0; j < botoesMini.length; j++) botoesMini[j].disabled = true;
+            if (papel == undefined) {
+                papel = "membro";
+            }
 
-        document.getElementById("aviso_admin").innerHTML =
-          "* Você está como membro. Apenas o admin pode iniciar o torneio e registrar resultados.";
-      }
-    }
+            document.getElementById("titulo_grupo").innerHTML = `Torneios - ${nomeGrupo}`;
+            document.getElementById("selo_papel").innerHTML = papel == "admin" ? "Admin" : "Membro";
 
-    // ações gerais do torneio (mockado por enquanto)
-    function criarTorneio() {
-        var nomeTorneioVar = document.getElementById("ipt_nome_torneio").value;
-        var idGrupoAtualVar = sessionStorage.ID_GRUPO_ATUAL
+            if (papel != "admin") {
+                document.getElementById("btn_criar_torneio").disabled = true;
+                document.getElementById("btn_gerar_chave").disabled = true;
+                document.getElementById("aviso_admin").innerHTML = "Você está como membro. Apenas o admin pode criar torneios e gerar chaveamentos.";
+            }
+        }
 
-        if (nomeTorneioVar == "") {
-            alert("Insira um nome para o torneio antes de iniciá-lo!");
+        function carregarTorneioAtivo() {
+            var idGrupo = sessionStorage.ID_GRUPO_ATUAL;
+
+            fetch(`/torneios/ativo/${idGrupo}`)
+                .then(function (resposta) {
+                    if (resposta.status == 204) {
+                        document.getElementById("selo_status").innerHTML = "Sem torneio";
+                        idTorneioAtual = null;
+                        return null;
+                    }
+
+                    if (resposta.ok) {
+                        return resposta.json();
+                    }
+
+                    return resposta.text().then(function (texto) {
+                        throw texto;
+                    });
+                })
+                .then(function (torneio) {
+                    if (torneio == null) {
+                        document.getElementById("lista_partidas").innerHTML = `<p class="texto-secundario">Nenhum torneio ativo encontrado. Crie um torneio para começar.</p>`;
+                        return;
+                    }
+
+                    idTorneioAtual = torneio.id_torneio;
+                    document.getElementById("selo_status").innerHTML = "Torneio ativo";
+                    listarPartidas();
+                })
+                .catch(function (erro) {
+                    console.log("#ERRO carregarTorneioAtivo:", erro);
+                    document.getElementById("selo_status").innerHTML = "Erro";
+                });
+        }
+
+        function criarTorneio() {
+            var nomeTorneioVar = document.getElementById("ipt_nome_torneio").value;
+            var idGrupoAtualVar = sessionStorage.ID_GRUPO_ATUAL;
+
+            if (nomeTorneioVar == "") {
+                alert("Insira um nome para o torneio.");
+                return false;
+            }
+
+            fetch("/torneios/criar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    nomeTorneioServer: nomeTorneioVar,
+                    idGrupoAtualServer: idGrupoAtualVar
+                })
+            })
+                .then(function (resposta) {
+                    if (resposta.ok) {
+                        return resposta.json();
+                    }
+
+                    return resposta.text().then(function (texto) {
+                        throw texto;
+                    });
+                })
+                .then(function (json) {
+                    alert("Torneio criado com sucesso!");
+
+                    document.getElementById("ipt_nome_torneio").value = "";
+
+                    if (json.id_torneio != undefined) {
+                        idTorneioAtual = json.id_torneio;
+                    } else if (json.idTorneio != undefined) {
+                        idTorneioAtual = json.idTorneio;
+                    }
+                    carregarTorneioAtivo();
+                })
+                .catch(function (erro) {
+                    console.log("#ERRO criarTorneio:", erro);
+                    alert(erro);
+                });
+
             return false;
         }
 
-        console.log("NOME TORNEIO: ", nomeTorneioVar);
-        console.log("ID_GRUPO_ATUAL: ", idGrupoAtualVar);
-
-        fetch("/torneios/criar", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                nomeTorneioServer: nomeTorneioVar,
-                idGrupoAtualServer: idGrupoAtualVar
-            })
-        }).then(function (resposta) {
-            console.log("ESTOU NO THEN DO criarTorneio()!")
-
-            if (resposta.ok) {
-                console.log(resposta);
-                return resposta.json()
-            } else {
-                console.log("Houve um erro ao tentar realizar a criação do torneio!");
-                alert("Houve um erro ao tentar realizar a criação do torneio!")
+        function gerarChaveamento() {
+            if (idTorneioAtual == null) {
+                alert("Crie um torneio antes de gerar o chaveamento.");
                 return false;
-            }    
-        }).then(function (json) {
-                console.log("JSON criarTorneio", json);
-                alert("Torneio criado!");
-                ipt_nome_torneio.value = ''
+            }
+
+            fetch(`/torneios/${idTorneioAtual}/gerar-chaveamento`, {
+                method: "POST"
             })
-            .catch(function (erro) {
-                console.log(erro);
-            })
+                .then(function (resposta) {
+                    if (resposta.ok) {
+                        return resposta.json();
+                    }
+                    return resposta.text().then(function (texto) {
+                        throw texto;
+                    });
+                })
+                .then(function (json) {
+                    alert("Chaveamento Gerado!");
+                    listarPartidas();
+                })
+                .catch(function (erro) {
+                    console.log("#ERRO gerarChave:", erro);
+                    alert(erro);
+                });
 
-        return false; 
-    }
+            return false;
+        }
 
-    function gerarChave() {
-      alert("Gerar chaveamento (mock)");
-    }
+        function listarPartidas() {
+            if (idTorneioAtual == null) {
+                document.getElementById("lista_partidas").innerHTML = `<p class="texto-secundario">Nenhum torneio ativo encontrado.</p>`;
+                return false;
+            }
 
-    function registrarResultado(idPartida) { 
-      alert("Registrar resultado (mock) - partida " + idPartida); 
-    }
+            fetch(`/torneios/${idTorneioAtual}/partidas`)
+                .then(function (resposta) {
+                    if (resposta.status == 204) {
+                        document.getElementById("lista_partidas").innerHTML = `<p class="texto-secundario">Nenhuma partida gerada ainda.</p>`;
+                        return null;
+                    }
+                    if (resposta.ok) {
+                        return resposta.json();
+                    }
+                    return resposta.text().then(function (texto) {
+                        throw texto;
+                    });
+                })
+                .then(function (partidas) {
+                    if (partidas == null) {
+                        return;
+                    }
 
-    window.onload = function () {
-      carregarNomeUsuario();
-      carregarContextoGrupo();
-    };
-  </script>
+                    var html = `<div class="titulo-rodada">Rodada 1</div> `;
+
+                    for (var i = 0; i < partidas.length; i++) {
+                        html += `
+                                <div class="partida-simples">
+                                    <div class="partida-cabecalho">
+                                        <strong>Jogo ${partidas[i].numero_partida}</strong>
+                                        <span>${partidas[i].status.toUpperCase()}</span>
+                                    </div>
+
+                                    <p>
+                                    ${partidas[i].nome_jogador1}
+                                    <b>x</b>
+                                    ${partidas[i].nome_jogador2}
+                                    </p>
+                                </div>
+                            `;
+                    }
+
+                    document.getElementById("lista_partidas").innerHTML = html;
+                })
+                .catch(function (erro) {
+                    console.log("#ERRO listarPartidas:", erro);
+
+                    document.getElementById("lista_partidas").innerHTML = `<p class="texto-secundario">Erro ao carregar partidas.</p>`;
+                });
+
+            return false;
+        }
+
+        window.onload = function () {
+            carregarNomeUsuario();
+            carregarContextoGrupo();
+            carregarTorneioAtivo();
+        };
+    </script>
 </body>
 </html>
