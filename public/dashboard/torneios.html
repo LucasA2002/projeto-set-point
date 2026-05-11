@@ -43,7 +43,7 @@
                 </div>
             </div>
 
-            <!-- layout principal -->
+            <!-- main -->
             <div class="grade-torneio">
 
                 <!-- card de gerenciamento -->
@@ -52,8 +52,7 @@
 
                     <p class="texto-secundario">
                         O torneio será criado no formato mata-mata. <br>
-                        Para iniciar o torneio, garanta que seu grupo tem um número par de membros, com no máximo 4
-                        membros.
+                        Para iniciar o torneio, garanta que o seu grupo possui exatamente 4 membros.
                     </p>
 
                     <div class="divisor"></div>
@@ -74,7 +73,7 @@
                     <div class="caixa-info">
                         <div class="linha-info">
                             <span class="rotulo-info">Participantes</span>
-                            <span class="valor-info">Todos os membros</span>
+                            <span class="valor-info">Quatro Membros</span>
                         </div>
 
                         <div class="linha-info">
@@ -115,6 +114,7 @@
         // setando idTorneioAtual inicialmente como NULL
         var idTorneioAtual = null;
 
+        // inserindo nome do usuário na header
         function carregarNomeUsuario() {
             var nome = sessionStorage.NOME_USUARIO;
 
@@ -124,6 +124,7 @@
             document.getElementById("user_nome").innerHTML = `Olá, ${nome}!`;
         }
 
+        // puxando contexto do grupo para avaliar se o usuário é membro ou admin
         function carregarContextoGrupo() {
             var idGrupo = sessionStorage.ID_GRUPO_ATUAL;
             var nomeGrupo = sessionStorage.NOME_GRUPO_ATUAL;
@@ -152,6 +153,7 @@
             }
         }
 
+        // verificando se há torneio ativo
         function carregarTorneioAtivo() {
             var idGrupo = sessionStorage.ID_GRUPO_ATUAL;
 
@@ -187,6 +189,7 @@
                 });
         }
 
+        // verificando input de nome vazio e criando o torneio
         function criarTorneio() {
             var nomeTorneioVar = document.getElementById("ipt_nome_torneio").value;
             var idGrupoAtualVar = sessionStorage.ID_GRUPO_ATUAL;
@@ -235,6 +238,7 @@
             return false;
         }
 
+        // gerando o chaveamento do torneio (verificando também se há torneio ativo)
         function gerarChaveamento() {
             if (idTorneioAtual == null) {
                 alert("Crie um torneio antes de gerar o chaveamento.");
@@ -242,7 +246,13 @@
             }
 
             fetch(`/torneios/${idTorneioAtual}/gerar-chaveamento`, {
-                method: "POST"
+                method: "POST",
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify({
+                    idGrupo: sessionStorage.ID_GRUPO_ATUAL
+                })
             })
                 .then(function (resposta) {
                     if (resposta.ok) {
@@ -264,6 +274,7 @@
             return false;
         }
 
+        // listando partidas do torneio na div
         function listarPartidas() {
             if (idTorneioAtual == null) {
                 document.getElementById("lista_partidas").innerHTML = `<p class="texto-secundario">Nenhum torneio ativo encontrado.</p>`;
@@ -291,20 +302,27 @@
                     var html = `<div class="titulo-rodada">Rodada 1</div> `;
 
                     for (var i = 0; i < partidas.length; i++) {
-                        html += `
+                        if (partidas[i].status == "pendente"){
+                            html += `
                                 <div class="partida-simples">
                                     <div class="partida-cabecalho">
                                         <strong>Jogo ${partidas[i].numero_partida}</strong>
                                         <span>${partidas[i].status.toUpperCase()}</span>
                                     </div>
+                                    <br>
 
-                                    <p>
-                                    ${partidas[i].nome_jogador1}
-                                    <b>x</b>
-                                    ${partidas[i].nome_jogador2}
-                                    </p>
+                                    <span class="titulo-secao">
+                                    <b>${partidas[i].nome_jogador1.toUpperCase()}
+                                    x
+                                    ${partidas[i].nome_jogador2.toUpperCase()}</b>
+                                    </span>
+                                    <br><br>
+
+                                    <button class="botao principal">${partidas[i].nome_jogador1.toUpperCase()} Venceu</button>
+                                    <button class="botao principal">${partidas[i].nome_jogador2.toUpperCase()} Venceu</button>
                                 </div>
                             `;
+                        }
                     }
 
                     document.getElementById("lista_partidas").innerHTML = html;
@@ -313,6 +331,67 @@
                     console.log("#ERRO listarPartidas:", erro);
 
                     document.getElementById("lista_partidas").innerHTML = `<p class="texto-secundario">Erro ao carregar partidas.</p>`;
+                });
+
+            return false;
+        }
+
+        function registrarVencedor(){
+            fetch(`/torneios/partidas/${idPartida}/vencedor`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify({
+                    idVencedor: idVencedor
+                })
+            })
+                .then(function (resposta) {
+                    if (resposta.ok) {
+                        return resposta.json();
+                    }
+                    return resposta.text().then(function (texto) {
+                        throw texto;
+                    });
+                })
+                .then(function (json) {
+                    alert(json.mensagem);
+                    carregarTorneioAtivo();
+                    listarPartidas();
+                })
+                .catch(function (erro) {
+                    console.log("#ERRO registrarVencedor:", erro);
+                    alert(erro);
+                });
+
+            return false;
+        };
+
+        function gerarFinal() {
+            if (idTorneioAtual == null) {
+                alert("Nenhum torneio ativo encontrado.");
+                return false;
+            }
+
+            fetch(`/torneios/${idTorneioAtual}/gerar-final`, {
+                method: "POST"
+            })
+                .then(function (resposta) {
+                    if (resposta.ok) {
+                        return resposta.json();
+                    }
+
+                    return resposta.text().then(function (texto) {
+                        throw texto;
+                    });
+                })
+                .then(function (json) {
+                    alert(json.mensagem);
+                    listarPartidas();
+                })
+                .catch(function (erro) {
+                    console.log("#ERRO gerarFinal:", erro);
+                    alert(erro);
                 });
 
             return false;

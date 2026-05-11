@@ -10,10 +10,10 @@ function verificar(req, res) {
             .then(
                 function (resultadoVerificar) {
                     console.log(`\nResultados encontrados: ${resultadoVerificar.length}`);
-                    console.log(`Resultados: ${JSON.stringify(resultadoVerificar)}`); // transforma JSON em String
+                    console.log(`Resultados: ${JSON.stringify(resultadoVerificar)}`);
 
                     if (resultadoVerificar.length == 1) {
-                        const t = resultadoVerificar[0];
+                        var t = resultadoVerificar[0];
                         console.log(resultadoVerificar);
 
                         res.status(200).json({
@@ -21,7 +21,9 @@ function verificar(req, res) {
                             id_grupo: t.id_grupo,
                             nome: t.nome,
                             status: t.status,
-                            dt_criacao: t.dt_criacao
+                            id_campeao: t.id_campeao,
+                            dt_criacao: t.dt_criacao,
+                            dt_finalizacao: t.dt_finalizacao
                         });
                     } else if (resultadoVerificar.length == 0) {
                         res.status(204).send();
@@ -39,123 +41,106 @@ function verificar(req, res) {
     }
 }
 
-function criar (req, res) {
+function criar(req, res) {
     var idGrupo = req.body.idGrupoAtualServer;
     var nomeTorneio = req.body.nomeTorneioServer;
 
     if (idGrupo == undefined) {
         res.status(400).send("idGrupo está indefinido!");
-    } else if(nomeTorneio == undefined){
+    } else if (nomeTorneio == undefined) {
         res.status(400).send("nomeTorneio está indefinido!");
     } else {
         torneioModel.verificarTorneio(idGrupo)
             .then(
-                function (resultado){
+                function (resultado) {
                     if (resultado.length == 1) {
-                        res.status(400).send("Já existe um torneio ativo!")
+                        res.status(400).send("Já existe um torneio ativo!");
                     } else {
                         torneioModel.criarTorneio(idGrupo, nomeTorneio)
-                        .then(
-                            function (resultado) {
-                                res.status(201).json({idTorneio: resultado.insertId})
-                            }
-                        ).catch(
-                            function (erro) {
-                                console.log(erro);
-                                console.log(
-                                    "\nHouve um erro ao realizar a criação do torneio! Erro: ",
-                                    erro.sqlMessage
-                                );
-                                res.status(500).json(erro.sqlMessage);
-                            }
-                        );
+                            .then(
+                                function (resultadoCriar) {
+                                    res.status(201).json({
+                                        mensagem: "Torneio criado com sucesso!",
+                                        idTorneio: resultadoCriar.insertId
+                                    });
+                                }
+                            ).catch(
+                                function (erro) {
+                                    console.log(erro);
+                                    console.log(
+                                        "\nHouve um erro ao realizar a criação do torneio! Erro: ",
+                                        erro.sqlMessage
+                                    );
+                                    res.status(500).json(erro.sqlMessage);
+                                }
+                            );
                     }
                 }
-            )
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao verificar torneio ativo! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
     }
 }
 
-function gerarChaveamento(req,res) {
-    var idTorneio = req.params.idTorneio
+function gerarChaveamento(req, res) {
+    var idTorneio = req.params.idTorneio;
+    var idGrupo = req.body.idGrupo;
 
-    if(idTorneio == undefined) {
+    if (idTorneio == undefined) {
         res.status(400).send("idTorneio está indefinido!");
+    } else if (idGrupo == undefined) {
+        res.status(400).send("idGrupo está indefinido!");
     } else {
 
-        // buscando id do torneio
-        torneioModel.buscarTorneioPorId(idTorneio)
-            .then(function (resultadoTorneio){
-                if (resultadoTorneio.length == 0){
-                    res.status(404).send("Torneio não encontrado")
+        // verificando se o torneio já possui partidas
+        torneioModel.listarPartidas(idTorneio)
+            .then(function (partidas) {
+                if (partidas.length > 0) {
+                    res.status(400).send("Este torneio já possui chaveamento.");
                 } else {
-                    var torneio = resultadoTorneio[0];
-                    var idGrupo = torneio.id_grupo;
 
-                    // verificando se tem chaveamento
-                    torneioModel.contarPartidas(idTorneio)
-                        .then(function (resultadoPartidas){
-                            var totalPartidas = resultadoPartidas[0].total;
+                    // buscando membros do grupo
+                    torneioModel.buscarMembrosDoGrupo(idGrupo)
+                        .then(function (membros) {
+                            console.log("MEMBROS ENCONTRADOS:", membros);
+                            console.log("TOTAL MEMBROS:", membros.length);
 
-                            if(totalPartidas > 0) {
-                                res.status(400).send("Este torneio já possui chaveamento")
+                            if (membros.length != 4) {
+                                res.status(400).send("É necessário ter exatamente 4 membros para gerar o chaveamento.");
                             } else {
 
-                                // verificando número de membros
-                                torneioModel.buscarMembrosDoGrupo(idGrupo)
-                                    .then(function (membros){
-
-                                        console.log("MEMBROS ENCONTRADOS:", membros)
-                                        console.log("TOTAL MEMBROS:", membros.length)
-
-                                        if (membros.length < 2){
-                                            res.status(400).send("É necessário ter pelo menos 2 participantes.")
-                                        } else if (membros.length % 2 != 0){
-                                            res.status(400).send("O número de participantes precisa ser par.")
-                                        } else {
-                                            // inserindo participantes
-                                            torneioModel.inserirParticipantes(idTorneio, membros)
-                                            . then(function() {
-                                                var partidas = [];
-
-                                                for (let i = 0; i < membros.length; i += 2) {
-                                                    partidas.push({
-                                                        rodada: 1,
-                                                        numero_partida: (i / 2) + 1,
-                                                        id_jogador1: membros[i].id_usuario,
-                                                        id_jogador2: membros[i + 1].id_usuario
-                                                    });
-                                                }
-                                                // grando chaveamento
-                                                torneioModel.inserirPartidas(idTorneio, partidas)
-                                                    .then(function () {
-                                                        res.status(201).json({
-                                                            total_participantes: membros.length,
-                                                            total_partidas: partidas.length
-                                                        });
-                                                    })
-                                                    .catch(function (erro) {
-                                                        console.log(erro);
-                                                        res.status(500).json(erro.sqlMessage)
-                                                    })
-                                            })
-                                            .catch(function (erro) {
-                                                console.log(erro);
-                                                res.status(500).json(erro.sqlMessage)
-                                            })
-                                        }
+                                // gerando chaveamento com duas semifinais
+                                torneioModel.gerarChaveamento(idTorneio, membros)
+                                    .then(function () {
+                                        res.status(201).json({
+                                            mensagem: "Chaveamento gerado com sucesso!",
+                                            total_participantes: membros.length,
+                                            total_partidas: 2
+                                        });
                                     })
                                     .catch(function (erro) {
                                         console.log(erro);
-                                        res.status(500).json(erro.sqlMessage)
-                                    })
+                                        console.log("\nHouve um erro ao gerar o chaveamento! Erro: ", erro.sqlMessage);
+                                        res.status(500).json(erro.sqlMessage);
+                                    });
                             }
                         })
                         .catch(function (erro) {
                             console.log(erro);
-                            res.status(500).json(erro.sqlMessage)
-                        })
+                            console.log("\nHouve um erro ao buscar membros do grupo! Erro: ", erro.sqlMessage);
+                            res.status(500).json(erro.sqlMessage);
+                        });
                 }
             })
+            .catch(function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao verificar partidas do torneio! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            });
     }
 }
 
@@ -163,20 +148,71 @@ function listarPartidas(req, res) {
     var idTorneio = req.params.idTorneio;
 
     if (idTorneio == undefined) {
-    res.status(400).send("idTorneio está indefinido!");
+        res.status(400).send("idTorneio está indefinido!");
     } else {
         torneioModel.listarPartidas(idTorneio)
             .then(function (resultado) {
-            if (resultado.length == 0) {
-                res.status(204).send();
-            } else {
-                res.status(200).json(resultado);
-            }
+                if (resultado.length == 0) {
+                    res.status(204).send();
+                } else {
+                    res.status(200).json(resultado);
+                }
             })
             .catch(function (erro) {
-            console.log(erro);
-            console.log("\nErro ao listar partidas: ", erro.sqlMessage);
-            res.status(500).json(erro.sqlMessage);
+                console.log(erro);
+                console.log("\nErro ao listar partidas: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
+function registrarVencedor(req, res) {
+    var idPartida = req.params.idPartida;
+    var idVencedor = req.body.idVencedor;
+
+    if (idPartida == undefined) {
+        res.status(400).send("idPartida está indefinido!");
+    } else if (idVencedor == undefined) {
+        res.status(400).send("idVencedor está indefinido!");
+    } else {
+
+        // registra vencedor da partida, se a partida for a final finaliza o torneio
+        torneioModel.registrarVencedor(idPartida, idVencedor)
+            .then(function () {
+                res.status(200).json({
+                    mensagem: "Vencedor registrado com sucesso!"
+                });
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                console.log("\nErro ao registrar vencedor: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
+function gerarFinal(req, res) {
+    var idTorneio = req.params.idTorneio;
+
+    if (idTorneio == undefined) {
+        res.status(400).send("idTorneio está indefinido!");
+    } else {
+
+        // gera a final apenas se as duas semifinais estiverem finalizadas
+        torneioModel.gerarFinal(idTorneio)
+            .then(function (resultado) {
+                if (resultado.affectedRows == 0) {
+                    res.status(400).send("A final só pode ser gerada após as duas semifinais serem finalizadas.");
+                } else {
+                    res.status(201).json({
+                        mensagem: "Final gerada com sucesso!"
+                    });
+                }
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                console.log("\nErro ao gerar final: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
             });
     }
 }
@@ -185,5 +221,7 @@ module.exports = {
     verificar,
     criar,
     gerarChaveamento,
-    listarPartidas
-}
+    listarPartidas,
+    registrarVencedor,
+    gerarFinal
+};
