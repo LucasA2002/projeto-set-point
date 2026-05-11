@@ -248,7 +248,7 @@
             fetch(`/torneios/${idTorneioAtual}/gerar-chaveamento`, {
                 method: "POST",
                 headers: {
-                    "Content-Type" : "application/json"
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
                     idGrupo: sessionStorage.ID_GRUPO_ATUAL
@@ -274,6 +274,34 @@
             return false;
         }
 
+        // montando cards
+        function montarCardPartida(partida, papel) {
+            var html = `
+                <div class="partida-simples">
+                    <div class="partida-cabecalho">
+                        <strong>${partida.rodada == 2 ? "Final" : "Jogo " + partida.numero_partida}</strong>
+                        <span>${partida.status.toUpperCase()}</span>
+                    </div>
+                    <br>
+                    <span class="titulo-secao">
+                        <b>${partida.nome_jogador1.toUpperCase()} x ${partida.nome_jogador2.toUpperCase()}</b>
+                    </span>
+                    <br><br>
+            `;
+
+            if (partida.status == "pendente" && papel == "admin") {
+                html += `
+                <button class="botao principal" onclick="registrarVencedor(${partida.id_partida}, ${partida.id_jogador1})">${partida.nome_jogador1.toUpperCase()} Venceu</button>
+                <button class="botao principal" onclick="registrarVencedor(${partida.id_partida}, ${partida.id_jogador2})">${partida.nome_jogador2.toUpperCase()} Venceu</button>
+            `;
+            } else if (partida.status == "finalizada") {
+                html += `<span class="texto-secundario">${partida.rodada == 2 ? "Campeão" : "Vencedor"}: <b>${partida.nome_vencedor.toUpperCase()}</b></span>`;
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
         // listando partidas do torneio na div
         function listarPartidas() {
             if (idTorneioAtual == null) {
@@ -287,60 +315,57 @@
                         document.getElementById("lista_partidas").innerHTML = `<p class="texto-secundario">Nenhuma partida gerada ainda.</p>`;
                         return null;
                     }
-                    if (resposta.ok) {
-                        return resposta.json();
-                    }
-                    return resposta.text().then(function (texto) {
-                        throw texto;
-                    });
+                    if (resposta.ok) return resposta.json();
+                    return resposta.text().then(function (texto) { throw texto; });
                 })
                 .then(function (partidas) {
                     if (partidas == null) {
                         return;
                     }
 
-                    var html = `<div class="titulo-rodada">Rodada 1</div> `;
+                    var papel = sessionStorage.PAPEL_USUARIO_NO_GRUPO;
+                    var semifinais = [];
+                    var final = [];
 
-                    for (var i = 0; i < partidas.length; i++) {
-                        if (partidas[i].status == "pendente"){
-                            html += `
-                                <div class="partida-simples">
-                                    <div class="partida-cabecalho">
-                                        <strong>Jogo ${partidas[i].numero_partida}</strong>
-                                        <span>${partidas[i].status.toUpperCase()}</span>
-                                    </div>
-                                    <br>
+                    for (let i = 0; i < partidas.length; i++) {
+                        if (partidas[i].rodada == 1) semifinais.push(partidas[i]);
+                        else final.push(partidas[i]);
+                    }
 
-                                    <span class="titulo-secao">
-                                    <b>${partidas[i].nome_jogador1.toUpperCase()}
-                                    x
-                                    ${partidas[i].nome_jogador2.toUpperCase()}</b>
-                                    </span>
-                                    <br><br>
+                    var semifinaisFinalizadas = 0;
+                    for (let i = 0; i < semifinais.length; i++) {
+                        if (semifinais[i].status == "finalizada") semifinaisFinalizadas++;
+                    }
 
-                                    <button class="botao principal">${partidas[i].nome_jogador1.toUpperCase()} Venceu</button>
-                                    <button class="botao principal">${partidas[i].nome_jogador2.toUpperCase()} Venceu</button>
-                                </div>
-                            `;
-                        }
+                    var html = "<div class='titulo-rodada'>Semifinais</div>";
+                    for (let i = 0; i < semifinais.length; i++) {
+                        html += montarCardPartida(semifinais[i], papel);
+                    }
+
+                    if (semifinaisFinalizadas == 2 && final.length == 0 && papel == "admin") {
+                        html += `<br><button class="botao principal" onclick="gerarFinal()">Gerar Final</button>`;
+                    }
+
+                    if (final.length > 0) {
+                        html += "<div class='titulo-rodada'>Final</div>";
+                        html += montarCardPartida(final[0], papel);
                     }
 
                     document.getElementById("lista_partidas").innerHTML = html;
                 })
                 .catch(function (erro) {
                     console.log("#ERRO listarPartidas:", erro);
-
                     document.getElementById("lista_partidas").innerHTML = `<p class="texto-secundario">Erro ao carregar partidas.</p>`;
                 });
 
             return false;
         }
 
-        function registrarVencedor(){
+        function registrarVencedor(idPartida, idVencedor) {
             fetch(`/torneios/partidas/${idPartida}/vencedor`, {
                 method: "PUT",
                 headers: {
-                    "Content-Type" : "application/json"
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
                     idVencedor: idVencedor
@@ -356,7 +381,6 @@
                 })
                 .then(function (json) {
                     alert(json.mensagem);
-                    carregarTorneioAtivo();
                     listarPartidas();
                 })
                 .catch(function (erro) {
@@ -404,4 +428,5 @@
         };
     </script>
 </body>
+
 </html>

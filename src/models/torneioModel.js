@@ -95,6 +95,8 @@ function listarPartidas(id_torneio) {
         partida.rodada,
         partida.numero_partida,
         partida.status,
+        partida.id_jogador1,
+        partida.id_jogador2,
         jogador1.nome AS nome_jogador1,
         jogador2.nome AS nome_jogador2,
         vencedor.nome AS nome_vencedor
