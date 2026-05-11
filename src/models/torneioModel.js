@@ -37,15 +37,34 @@ function buscarMembrosDoGrupo(id_grupo) {
 }
 
 function gerarChaveamento(id_torneio, membros) {
-    var valoresParticipantes = "";
+    // sorteando as posições dos jogadores
+    var posicao0 = Math.floor(Math.random() * membros.length);
+    var jogador0 = membros[posicao0];
 
-    for (let i = 0; i < membros.length; i++) {
-        valoresParticipantes += `(${id_torneio}, ${membros[i].id_usuario})`;
-
-        if (i < membros.length - 1) {
-            valoresParticipantes += ", ";
-        }
+    var posicao1 = Math.floor(Math.random() * membros.length);
+    while (posicao1 == posicao0) {
+        posicao1 = Math.floor(Math.random() * membros.length);
     }
+    var jogador1 = membros[posicao1];
+
+    var posicao2 = Math.floor(Math.random() * membros.length);
+    while (posicao2 == posicao0 || posicao2 == posicao1) {
+        posicao2 = Math.floor(Math.random() * membros.length);
+    }
+    var jogador2 = membros[posicao2];
+
+    var posicao3 = Math.floor(Math.random() * membros.length);
+    while (posicao3 == posicao0 || posicao3 == posicao1 || posicao3 == posicao2) {
+        posicao3 = Math.floor(Math.random() * membros.length);
+    }
+    var jogador3 = membros[posicao3];
+
+    var valoresParticipantes = `
+        (${id_torneio}, ${jogador0.id_usuario}),
+        (${id_torneio}, ${jogador1.id_usuario}),
+        (${id_torneio}, ${jogador2.id_usuario}),
+        (${id_torneio}, ${jogador3.id_usuario})
+    `;
 
     var instrucaoParticipantes = `
         INSERT INTO torneio_participante (id_torneio, id_usuario)
@@ -60,8 +79,8 @@ function gerarChaveamento(id_torneio, membros) {
                 INSERT INTO partida 
                     (id_torneio, rodada, numero_partida, id_jogador1, id_jogador2, status)
                 VALUES
-                    (${id_torneio}, 1, 1, ${membros[0].id_usuario}, ${membros[1].id_usuario}, 'pendente'),
-                    (${id_torneio}, 1, 2, ${membros[2].id_usuario}, ${membros[3].id_usuario}, 'pendente');
+                    (${id_torneio}, 1, 1, ${jogador0.id_usuario}, ${jogador1.id_usuario}, 'pendente'),
+                    (${id_torneio}, 1, 2, ${jogador2.id_usuario}, ${jogador3.id_usuario}, 'pendente');
             `;
 
             console.log("Executando a instrução SQL: \n" + instrucaoPartidas);
@@ -101,20 +120,26 @@ function registrarVencedor(id_partida, id_vencedor) {
         id_vencedor = ${id_vencedor},
         status = 'finalizada'
         WHERE id_partida = ${id_partida};
-
-        UPDATE torneio
-        JOIN partida 
-        ON partida.id_torneio = torneio.id_torneio
-        SET 
-        torneio.status = 'finalizado',
-        torneio.id_campeao = ${id_vencedor},
-        torneio.dt_finalizacao = NOW()
-        WHERE partida.id_partida = ${id_partida}
-        AND partida.rodada = 2;
     `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    return database.executar(instrucaoSql)
+        .then(function () {
+            var instrucaoSql = `
+            UPDATE torneio
+            JOIN partida 
+            ON partida.id_torneio = torneio.id_torneio
+            SET 
+            torneio.status = 'finalizado',
+            torneio.id_campeao = ${id_vencedor},
+            torneio.dt_finalizacao = NOW()
+            WHERE partida.id_partida = ${id_partida}
+            AND partida.rodada = 2;
+        `;
+
+        console.log("Executando a instrução SQL: \n" + instrucaoSql);
+        return database.executar(instrucaoSql);
+        });
 }
 
 function gerarFinal(id_torneio) {

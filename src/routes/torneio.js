@@ -20,7 +20,7 @@ router.get("/:idTorneio/partidas", function (req, res) {
 })
 
 router.put("/partidas/:idPartida/vencedor", function (req, res) {
-    partidaController.registrarVencedor(req, res);
+    torneioController.registrarVencedor(req, res);
 })
 
 router.post("/:idTorneio/gerar-final", function (req, res) {
