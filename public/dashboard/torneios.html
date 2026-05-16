@@ -132,6 +132,7 @@
 
             if (idGrupo == undefined) {
                 alert("Nenhum grupo selecionado.");
+                window.location.href = "grupos.html";
                 return false;
             }
 
@@ -223,9 +224,7 @@
 
                     document.getElementById("ipt_nome_torneio").value = "";
 
-                    if (json.id_torneio != undefined) {
-                        idTorneioAtual = json.id_torneio;
-                    } else if (json.idTorneio != undefined) {
+                    if (json.idTorneio != undefined) {
                         idTorneioAtual = json.idTorneio;
                     }
                     carregarTorneioAtivo();
@@ -389,7 +388,7 @@
                 });
 
             return false;
-        };
+        }
 
         function gerarFinal() {
             if (idTorneioAtual == null) {

@@ -28,7 +28,7 @@ function verificar(req, res) {
                     } else if (resultadoVerificar.length == 0) {
                         res.status(204).send();
                     } else {
-                        res.status(403).send("Erro na lógica do backend!");
+                        res.status(500).send("Erro na lógica do backend");
                     }
                 }
             ).catch(

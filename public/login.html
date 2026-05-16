@@ -73,62 +73,62 @@
                     `<h1>Atenção!</h1>
                     <p>Preencha todos os campos para efetuar o login.</p>`;
                 finalizarAguardar();
+                setTimeout(sumirMensagem, 5000)
                 return false;
             }
             else {
-                setInterval(sumirMensagem, 5000)
-            }
-    
-            console.log("FORM LOGIN: ", emailVar);
-            console.log("FORM SENHA: ", senhaVar);
-    
-            fetch("/usuarios/autenticar", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    emailServer: emailVar,
-                    senhaServer: senhaVar
+                console.log("FORM LOGIN: ", emailVar);
+                console.log("FORM SENHA: ", senhaVar);
+                
+                fetch("/usuarios/autenticar", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        emailServer: emailVar,
+                        senhaServer: senhaVar
+                    })
+                }).then(function (resposta) {
+                    console.log("ESTOU NO THEN DO entrar()!")
+                    
+                    if (resposta.ok) {
+                        console.log(resposta);
+                        
+                        resposta.json().then(json => {
+                            console.log(json);
+                            console.log(JSON.stringify(json));
+                            sessionStorage.EMAIL_USUARIO = json.email;
+                            sessionStorage.NOME_USUARIO = json.nome;
+                            sessionStorage.ID_USUARIO = json.id_usuario;
+                            console.log("Sessão:", sessionStorage.ID_USUARIO, sessionStorage.EMAIL_USUARIO);
+                            
+                            setTimeout(function () {
+                                window.location.href = "/dashboard/grupos.html";
+                                limparFormulario();
+                                finalizarAguardar();
+                            }, 1000); // apenas para exibir o loading
+                        });
+                        
+                    } else {
+                        
+                        console.log("Houve um erro ao tentar realizar o login!");
+                        
+                        cardErro.style.display = "block"
+                        mensagem_erro.innerHTML =
+                        `<h1>Atenção!</h1>
+                        <p>Email ou Senha estão incorretos.</p>`;
+                        limparFormulario();
+                        finalizarAguardar();
+                        setTimeout(sumirMensagem, 5000);
+                        return false;
+                    }
+                }).catch(function (erro) {
+                    console.log(erro);
                 })
-            }).then(function (resposta) {
-                console.log("ESTOU NO THEN DO entrar()!")
-    
-                if (resposta.ok) {
-                    console.log(resposta);
-    
-                    resposta.json().then(json => {
-                        console.log(json);
-                        console.log(JSON.stringify(json));
-                        sessionStorage.EMAIL_USUARIO = json.email;
-                        sessionStorage.NOME_USUARIO = json.nome;
-                        sessionStorage.ID_USUARIO = json.id_usuario;
-                        console.log("Sessão:", sessionStorage.ID_USUARIO, sessionStorage.EMAIL_USUARIO);
-    
-                        setTimeout(function () {
-                            window.location.href = "/dashboard/grupos.html";
-                            limparFormulario();
-                            finalizarAguardar();
-                        }, 1000); // apenas para exibir o loading
-                    });
-    
-                } else {
-    
-                    console.log("Houve um erro ao tentar realizar o login!");
-
-                    cardErro.style.display = "block"
-                    mensagem_erro.innerHTML =
-                    `<h1>Atenção!</h1>
-                    <p>Email ou Senha estão incorretos.</p>`;
-                    limparFormulario();
-                    finalizarAguardar();
-                    return false;
-                }
-            }).catch(function (erro) {
-                console.log(erro);
-            })
-    
-            return false;
+                
+                return false;
+            }
         }
     
         function sumirMensagem() {
