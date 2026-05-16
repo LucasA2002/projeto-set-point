@@ -166,6 +166,29 @@ function gerarFinal(id_torneio) {
     return database.executar(instrucaoSql);
 }
 
+function buscarDados(idGrupo) {
+    var instrucaoSql = `
+        SELECT
+        u.nome,
+        gm.id_usuario,
+        COUNT(CASE WHEN p.id_vencedor = gm.id_usuario THEN 1 END) AS vitorias,
+        COUNT(CASE WHEN p.id_vencedor != gm.id_usuario 
+               AND (p.id_jogador1 = gm.id_usuario OR p.id_jogador2 = gm.id_usuario)
+               AND p.status = 'finalizada' THEN 1 END) AS derrotas,
+        COUNT(DISTINCT CASE WHEN t.id_campeao = gm.id_usuario THEN t.id_torneio END) AS torneios_ganhos,
+        COUNT(DISTINCT t.id_torneio) AS torneios_participados,
+        COUNT(CASE WHEN p.id_jogador1 = gm.id_usuario OR p.id_jogador2 = gm.id_usuario THEN 1 END) AS partidas_jogadas
+        FROM grupo_membro gm
+        JOIN torneio t ON gm.id_grupo = t.id_grupo
+        JOIN partida p ON t.id_torneio = p.id_torneio
+        JOIN usuario u ON gm.id_usuario = u.id_usuario
+        WHERE gm.id_grupo = ${idGrupo}
+        GROUP BY gm.id_usuario, u.nome;
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
 
 module.exports = {
     verificarTorneio,
@@ -174,5 +197,6 @@ module.exports = {
     gerarChaveamento,
     listarPartidas,
     registrarVencedor,
-    gerarFinal
+    gerarFinal,
+    buscarDados
 };

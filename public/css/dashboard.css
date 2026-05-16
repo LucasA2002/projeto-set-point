@@ -4,7 +4,7 @@
     --destaque:#c2f05a;
     --borda:#0f172a;
     --sidebar-bg:#ffffff;
-    --main-bg:#233b07;
+    --main-bg:#192b05;
     --card-bg:#ffffff;
     --texto-muted:#6b7280;
     --vermelho:#dc2626;
@@ -56,7 +56,7 @@ body {
     margin-top: 15px;
 }
 
-/* navegação */
+/* nav da sidebar */
 .sidebar-nav {
     display: flex;
     flex-direction: column;
@@ -95,7 +95,7 @@ body {
     text-align: center;
 }
 
-/* rodapé */
+/* rodapé da sidebar */
 .sidebar-rodape {
     padding: 16px 12px;
     border-top: 1px solid #e5e7eb;

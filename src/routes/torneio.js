@@ -27,4 +27,8 @@ router.post("/:idTorneio/gerar-final", function (req, res) {
     torneioController.gerarFinal(req, res);
 });
 
+router.get("/dados/:idGrupo", function (req, res) {
+    torneioController.dados(req, res);
+});
+
 module.exports = router;

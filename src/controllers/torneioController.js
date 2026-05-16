@@ -217,11 +217,31 @@ function gerarFinal(req, res) {
     }
 }
 
+// dados para a dash
+function dados(req, res)  {
+    var idGrupo = req.params.idGrupo
+
+    if (idGrupo == undefined) {
+        res.status(400).send("idGrupo está undefined!")
+    } else  {
+        torneioModel.buscarDados(idGrupo)
+            .then(function(resultado) {
+                res.status(200).json(resultado);
+            })
+            .catch(function(erro){
+                console.log(erro);
+                console.log("\nHouve um erro ao buscar dados dos torneios do grupo Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage)
+            });
+    }
+}
+
 module.exports = {
     verificar,
     criar,
     gerarChaveamento,
     listarPartidas,
     registrarVencedor,
-    gerarFinal
+    gerarFinal,
+    dados
 };

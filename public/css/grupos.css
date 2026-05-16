@@ -254,15 +254,6 @@ body {
     background: var(--secundaria);
 }
 
-.btn.secundaria {
-    background: rgba(195, 240, 90, 0.151);
-    color: var(--primaria);
-}
-
-.btn.secundaria:hover {
-    background: rgba(194, 240, 90, 0.30);
-}
-
 /* card da tabela de grupos */
 .tabela-card {
     margin-top: 18px;
