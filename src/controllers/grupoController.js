@@ -75,20 +75,36 @@ function entrar(req, res) {
                     if (resultadoGrupo.length == 1) {
                         var grupo = resultadoGrupo[0];
 
-                        gruposModel.adicionarMembro(grupo.id_grupo, idUsuario, "membro")
-                            .then(
-                                function () {
-                                    res.status(200).json({
-                                        id_grupo: grupo.id_grupo,
-                                        nome: grupo.nome,
-                                        codigo_convite: grupo.codigo_convite
+                        // verifica quantos membros o grupo tem
+                        gruposModel.contarMembros(grupo.id_grupo)
+                        .then(function (resultadoContagem) {
+                            var totalMembros = resultadoContagem[0].total;
+
+                            if (totalMembros >= 4) {
+                                res.status(400).send("Este grupo já atingiu o limite de 4 membros.");
+                            } else {
+
+                                // adicionar membro no grupo
+                                gruposModel.adicionarMembro(grupo.id_grupo, idUsuario, "membro")
+                                    .then(
+                                        function () {
+                                            res.status(200).json({
+                                                id_grupo: grupo.id_grupo,
+                                                nome: grupo.nome,
+                                                codigo_convite: grupo.codigo_convite
+                                            });
+                                    })
+                                    .catch(function (erro) {
+                                        console.log(erro);
+                                        console.log("\nErro ao entrar no grupo! Erro: ", erro.sqlMessage);
+                                        res.status(500).json(erro.sqlMessage);
                                     });
-                                })
-                            .catch(function (erro) {
-                                console.log(erro);
-                                console.log("\nErro ao entrar no grupo! Erro: ", erro.sqlMessage);
-                                res.status(500).json(erro.sqlMessage);
-                            });
+                            }
+                        })
+                        .catch(function (erro){
+                            console.log(erro);
+                            res.status(500).json(erro.sqlMessage);
+                        })
                     } else if (resultadoGrupo.length == 0) {
                         res.status(404).send("Código inválido. Grupo não encontrado.");
                     } else {

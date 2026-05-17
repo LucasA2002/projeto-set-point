@@ -41,9 +41,20 @@ function listarGruposDoUsuario(idUsuario) {
     return database.executar(instrucaoSql);
 }
 
+function contarMembros(idGrupo) {
+    var instrucaoSql = `
+        SELECT COUNT(*) AS total
+        FROM grupo_membro
+        WHERE id_grupo = ${idGrupo};
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     criarGrupo,
     adicionarMembro,
     buscarPeloCodigo,
-    listarGruposDoUsuario
+    listarGruposDoUsuario,
+    contarMembros
 };

@@ -23,12 +23,12 @@ router.get("/:idTorneio/partidas", function (req, res) {
     torneioController.listarPartidas(req, res);
 })
 
-router.put("/partidas/:idPartida/vencedor", function (req, res) {
-    torneioController.registrarVencedor(req, res);
-})
-
 router.post("/:idTorneio/gerar-final", function (req, res) {
     torneioController.gerarFinal(req, res);
 });
+
+router.put("/partidas/:idPartida/vencedor", function (req, res) {
+    torneioController.registrarVencedor(req, res);
+})
 
 module.exports = router;
