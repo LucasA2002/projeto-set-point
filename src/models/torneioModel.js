@@ -190,6 +190,26 @@ function buscarDados(idGrupo) {
     return database.executar(instrucaoSql);
 }
 
+function buscarRodadas(idGrupo) {
+    var instrucaoSql = `
+        SELECT
+            u.nome,
+            COUNT(CASE WHEN p.rodada = 1 AND p.id_vencedor = u.id_usuario THEN 1 END) AS semifinais_vencidas,
+            COUNT(CASE WHEN p.rodada = 2 AND p.id_vencedor = u.id_usuario THEN 1 END) AS finais_vencidas
+        FROM grupo_membro gm
+        JOIN usuario u ON u.id_usuario = gm.id_usuario
+        LEFT JOIN torneio t ON t.id_grupo = gm.id_grupo
+        LEFT JOIN partida p
+            ON  p.id_torneio = t.id_torneio
+            AND p.id_vencedor = u.id_usuario
+        WHERE gm.id_grupo = ${idGrupo}
+        GROUP BY u.id_usuario, u.nome
+        ORDER BY finais_vencidas DESC, semifinais_vencidas DESC;
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     verificarTorneio,
     criarTorneio,
@@ -198,5 +218,6 @@ module.exports = {
     listarPartidas,
     registrarVencedor,
     gerarFinal,
-    buscarDados
+    buscarDados,
+    buscarRodadas
 };

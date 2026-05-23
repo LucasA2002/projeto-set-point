@@ -15,6 +15,10 @@ router.post("/criar", function (req, res) {
     torneioController.criar(req, res);
 })
 
+router.get("/rodadas/:idGrupo", function (req, res) {
+    torneioController.rodadas(req, res);
+});
+
 router.post("/:idTorneio/gerar-chaveamento", function (req, res) {
     torneioController.gerarChaveamento(req, res);
 })

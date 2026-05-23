@@ -9,11 +9,10 @@
     <link rel="stylesheet" href="../css/dashboard.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://kit.fontawesome.com/9f7414eb10.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/762d49c6c9.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -95,6 +94,7 @@
             <!-- graficos -->
             <div class="grade-graficos">
 
+                <!-- titulos -->
                 <div class="grafico-card">
                     <h3 class="grafico-titulo">Quantidade de títulos conquistados por jogador</h3>
                     <div class="grafico-area">
@@ -102,6 +102,7 @@
                     </div>
                 </div>
 
+                <!-- vitorias em partidas -->
                 <div class="grafico-card">
                     <h3 class="grafico-titulo">Quantidade de partidas vencidas por jogador</h3>
                     <div class="grafico-area">
@@ -109,17 +110,19 @@
                     </div>
                 </div>
 
+                <!-- semifinais vs finais vencidas -->
                 <div class="grafico-card">
-                    <h3 class="grafico-titulo">Aproveitamento (Partidas vencidas / Partidas disputadas)</h3>
+                    <h3 class="grafico-titulo">Desempenho dos jogadores nos torneios</h3>
                     <div class="grafico-area">
-                        <canvas id="grafico_aproveitamento"></canvas>
+                        <canvas id="grafico_rodadas"></canvas>
                     </div>
                 </div>
 
+                <!-- ranking -->
                 <div class="grafico-card">
-                    <h3 class="grafico-titulo">Quantidade de derrotas em partidas</h3>
-                    <div class="grafico-area">
-                        <canvas id="grafico_derrotas"></canvas>
+                    <h3 class="grafico-titulo">Ranking do grupo</h3>
+                    <div id="tabela_recordes">
+                        <p>Carregando...</p>
                     </div>
                 </div>
 
@@ -141,10 +144,10 @@
         var nomeGrupo = sessionStorage.NOME_GRUPO_ATUAL;
         var idGrupo = sessionStorage.ID_GRUPO_ATUAL;
 
-        if (idGrupo == undefined) {
-            window.location.href = "grupos.html";
-            return;
-        }
+        // if (idGrupo == undefined) {
+        //     window.location.href = "grupos.html";
+        //     return;
+        // }
 
         document.getElementById("subtitulo_grupo").innerHTML = `Visualize as estatísticas unificadas de todos os Torneios do grupo ${(nomeGrupo != undefined ? nomeGrupo : "")}`;
     }
@@ -166,11 +169,27 @@
                 preencherKPIs(dados);
                 plotarGraficoTitulos(dados);
                 plotarGraficoVitorias(dados);
-                plotarGraficoAproveitamento(dados);
-                plotarGraficoDerrotas(dados);
+                montarClassificacao(dados);
             })
             .catch(function (erro) {
                 console.log("#ERRO carregarDashboard:", erro);
+            });
+
+        // busca de dados por rodada (gráfico de desempenho por rodada)
+        fetch(`/torneios/rodadas/${idGrupo}`, {
+            method: "GET"
+        }) 
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    return resposta.json();
+                }
+                return resposta.text().then(function (texto) { throw texto; });
+            })
+            .then(function (dadosRodadas) {
+                plotarGraficoRodadas(dadosRodadas);
+            })
+            .catch(function (erro) {
+                console.log("#ERRO carregarDashboard rodadas:", erro);
             });
     }
 
@@ -303,105 +322,52 @@
         });
     }
 
-    // grafico 3 - aproveitamento nas partidas
-    function plotarGraficoAproveitamento(dados) {
-        let dadosOrdenados = dados.slice();
-
-        for (let i = 0; i < dadosOrdenados.length - 1; i++) {
-            for (let j = i + 1; j < dadosOrdenados.length; j++) {
-                let aproveitamentoI = dadosOrdenados[i].partidas_jogadas > 0
-                    ? dadosOrdenados[i].vitorias / dadosOrdenados[i].partidas_jogadas : 0;
-                let aproveitamentoJ = dadosOrdenados[j].partidas_jogadas > 0
-                    ? dadosOrdenados[j].vitorias / dadosOrdenados[j].partidas_jogadas : 0;
-                if (aproveitamentoJ > aproveitamentoI) {
-                    let temp = dadosOrdenados[i];
-                    dadosOrdenados[i] = dadosOrdenados[j];
-                    dadosOrdenados[j] = temp;
-                }
-            }
-        }
+    // grafico 3 - desempenho por rodada
+    function plotarGraficoRodadas(dados) {
+        if (dados.length == 0) return;
 
         let nomes = [];
-        let aproveitamentos = [];
+        let semifinais = [];
+        let finais = [];
 
-        for (let i = 0; i < dadosOrdenados.length; i++) {
-            nomes.push(dadosOrdenados[i].nome);
-            let aprov = dadosOrdenados[i].partidas_jogadas > 0
-                ? Math.round((dadosOrdenados[i].vitorias / dadosOrdenados[i].partidas_jogadas) * 100)
-                : 0;
-            aproveitamentos.push(aprov);
+        for (let i = 0; i < dados.length; i++) {
+            nomes.push(dados[i].nome);
+            semifinais.push(dados[i].semifinais_vencidas);
+            finais.push(dados[i].finais_vencidas);
         }
 
-        new Chart(document.getElementById("grafico_aproveitamento"), {
+        new Chart(document.getElementById("grafico_rodadas"), {
             type: "bar",
             data: {
                 labels: nomes,
-                datasets: [{
-                    label: "Aproveitamento (%)",
-                    data: aproveitamentos,
-                    backgroundColor: "#c2f05a",
-                    borderColor: "#3c5b0a",
-                    borderWidth: 2,
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                indexAxis: "y",
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        max: 100,
-                        ticks: {
-                            callback: function (value) { return value + "%"; }
-                        }
+                datasets: [
+                    {
+                        label: "Semifinais vencidas",
+                        data: semifinais,
+                        backgroundColor: "#3c5b0a",
+                        borderColor: "#2f4807",
+                        borderWidth: 2,
+                        borderRadius: 6
+                    },
+                    {
+                        label: "Finais vencidas",
+                        data: finais,
+                        backgroundColor: "#c2f05a",
+                        borderColor: "#3c5b0a",
+                        borderWidth: 2,
+                        borderRadius: 6
                     }
-                }
-            }
-        });
-    }
-
-    // grafico 4 - derrotas em partidas
-    function plotarGraficoDerrotas(dados) {
-        var dadosOrdenados = dados.slice();
-
-        for (var i = 0; i < dadosOrdenados.length - 1; i++) {
-            for (var j = i + 1; j < dadosOrdenados.length; j++) {
-                if (dadosOrdenados[j].derrotas > dadosOrdenados[i].derrotas) {
-                    var temp = dadosOrdenados[i];
-                    dadosOrdenados[i] = dadosOrdenados[j];
-                    dadosOrdenados[j] = temp;
-                }
-            }
-        }
-
-        var nomes = [];
-        var derrotas = [];
-
-        for (var i = 0; i < dadosOrdenados.length; i++) {
-            nomes.push(dadosOrdenados[i].nome);
-            derrotas.push(dadosOrdenados[i].derrotas);
-        }
-
-        new Chart(document.getElementById("grafico_derrotas"), {
-            type: "bar",
-            data: {
-                labels: nomes,
-                datasets: [{
-                    label: "Derrotas",
-                    data: derrotas,
-                    backgroundColor: "#7a1a1a",
-                    borderColor: "red",
-                    borderWidth: 2,
-                    borderRadius: 6
-                }]
+                ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
+                plugins: {
+                    legend: {
+                        position: "bottom",
+                        labels: { padding: 16 }
+                    }
+                },
                 scales: {
                     y: {
                         beginAtZero: true,
@@ -410,6 +376,59 @@
                 }
             }
         });
+    }
+
+    // grafico 4 - recordes do grupo
+    function montarClassificacao(dados) {
+        if (dados.length == 0) {
+            document.getElementById("tabela_recordes").innerHTML = '<p>Sem dados disponíveis.</p>';
+            return;
+        }
+
+        // ordenando por titulos com desempate por vitórias em partidas
+        let dadosOrdenados = dados.slice();
+        for (let i = 0; i < dadosOrdenados.length - 1; i++) {
+            for (let j = i + 1; j < dadosOrdenados.length; j++) {
+                let trocar = false;
+                if (dadosOrdenados[j].torneios_ganhos > dadosOrdenados[i].torneios_ganhos) {
+                    trocar = true;
+                } else if (dadosOrdenados[j].torneios_ganhos == dadosOrdenados[i].torneios_ganhos) {
+                    if (dadosOrdenados[j].vitorias > dadosOrdenados[i].vitorias) {
+                        trocar = true;
+                    }
+                }
+                if (trocar) {
+                    let temporaria = dadosOrdenados[i];
+                    dadosOrdenados[i] = dadosOrdenados[j];
+                    dadosOrdenados[j] = temporaria;
+                }
+            }
+        }
+
+        let medalhas = ["🥇", "🥈", "🥉"];
+
+        let html = '<table class="tabela-recordes">' +
+            '<thead><tr>' +
+            '<th>#</th>' +
+            '<th>Jogador</th>' +
+            '<th>Títulos</th>' +
+            '<th>Vitórias</th>' +
+            '<th>Partidas</th>' +
+            '</tr></thead><tbody>';
+
+        for (let i = 0; i < dadosOrdenados.length; i++) {
+            let posicao = i < 3 ? medalhas[i] : (i + 1) + "º";
+            html += '<tr>' +
+                '<td class="recorde-icone">' + posicao + '</td>' +
+                '<td class="recorde-valor">' + dadosOrdenados[i].nome + '</td>' +
+                '<td class="recorde-titulo">' + dadosOrdenados[i].torneios_ganhos + '</td>' +
+                '<td class="recorde-titulo">' + dadosOrdenados[i].vitorias + '</td>' +
+                '<td class="recorde-titulo">' + dadosOrdenados[i].partidas_jogadas + '</td>' +
+                '</tr>';
+        }
+
+        html += '</tbody></table>';
+        document.getElementById("tabela_recordes").innerHTML = html;
     }
 
     function sair() {

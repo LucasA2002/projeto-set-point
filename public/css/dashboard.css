@@ -256,3 +256,54 @@ body {
     position: relative;
     height: 260px;
 }
+
+.tabela-recordes {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabela-recordes tr {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.tabela-recordes tr:last-child {
+    border-bottom: none;
+}
+
+.recorde-valor {
+    font-weight: 700;
+    color: #3c5b0a;
+    font-size: 16px;
+}
+
+.tabela-recordes thead th {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #6b7280;
+    padding: 8px;
+    border-bottom: 2px solid #e5e7eb;
+    text-align: center;
+}
+
+.tabela-recordes thead th:nth-child(2) {
+    text-align: left;
+}
+
+.tabela-recordes tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.tabela-recordes tbody tr:last-child {
+    border-bottom: none;
+}
+
+.tabela-recordes td {
+    padding: 14px 8px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.tabela-recordes td:nth-child(2) {
+    text-align: left;
+}

@@ -236,6 +236,25 @@ function dados(req, res)  {
     }
 }
 
+// dados para a tabela
+function rodadas(req, res) {
+    var idGrupo = req.params.idGrupo;
+
+    if (idGrupo == undefined) {
+        res.status(400).send("idGrupo está undefined!");
+    } else {
+        torneioModel.buscarRodadas(idGrupo)
+            .then(function (resultado) {
+                res.status(200).json(resultado);
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao buscar dados por rodada! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
 module.exports = {
     verificar,
     criar,
@@ -243,5 +262,6 @@ module.exports = {
     listarPartidas,
     registrarVencedor,
     gerarFinal,
-    dados
+    dados,
+    rodadas
 };
