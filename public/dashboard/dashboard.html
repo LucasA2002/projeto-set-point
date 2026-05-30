@@ -128,6 +128,17 @@
 
             </div>
 
+            <!-- histórico de torneios -->
+            <div class="historico-card">
+                <h3 class="grafico-titulo">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    Histórico de torneios
+                </h3>
+                <div id="tabela_historico">
+                    <p class="sem-dados">Carregando...</p>
+                </div>
+            </div>
+
         </main>
     </div>
 </body>
@@ -175,6 +186,7 @@
                 console.log("#ERRO carregarDashboard:", erro);
             });
 
+
         // busca de dados por rodada (gráfico de desempenho por rodada)
         fetch(`/torneios/rodadas/${idGrupo}`, {
             method: "GET"
@@ -190,6 +202,24 @@
             })
             .catch(function (erro) {
                 console.log("#ERRO carregarDashboard rodadas:", erro);
+            });
+
+
+        // busca de dados para montagem do histórico
+        fetch(`/torneios/historico/${idGrupo}`, {
+            method: "GET"
+        })
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    return resposta.json();
+                }
+                return resposta.text().then(function (texto) { throw texto; });
+            })
+            .then(function (historico) {
+                montarHistorico(historico);
+            })
+            .catch(function (erro) {
+                console.log("#ERRO carregarDashboard historico:", erro);
             });
     }
 
@@ -429,6 +459,63 @@
 
         html += '</tbody></table>';
         document.getElementById("tabela_recordes").innerHTML = html;
+    }
+
+    // histórico do grupo
+    function montarHistorico(historico) {
+        let tabelaHistorico = document.getElementById("tabela_historico");
+ 
+        if (historico.length == 0) {
+            tabelaHistorico.innerHTML = '<p class="sem-dados">Nenhum torneio finalizado ainda.</p>';
+            return;
+        }
+ 
+        let html = '<table class="tabela-historico">' +
+            '<thead><tr>' +
+            '<th>#</th>' +
+            '<th>Torneio</th>' +
+            '<th>Data de início</th>' +
+            '<th>Data de encerramento</th>' +
+            '<th>Campeão</th>' +
+            '<th>Nível</th>' +
+            '<th>Gênero</th>' +
+            '<th>Idade</th>' +
+            '</tr></thead><tbody>';
+ 
+        for (let i = 0; i < historico.length; i++) {
+            let dtCriacao = historico[i].dt_criacao ? formatarData(historico[i].dt_criacao) : "—";
+            let dtFinalizacao = historico[i].dt_finalizacao ? formatarData(historico[i].dt_finalizacao) : "—";
+            let campeao = historico[i].nome_campeao ? historico[i].nome_campeao : "—";
+            let nivel = historico[i].nivel ? historico[i].nivel : "—";
+            let genero = historico[i].genero ? historico[i].genero : "—";
+            let idade = historico[i].idade != null ? historico[i].idade + " anos" : "—";
+ 
+            html += '<tr>' +
+                '<td class="hist-pos">' + (i + 1) + '</td>' +
+                '<td class="hist-nome-torneio">' + historico[i].nome_torneio + '</td>' +
+                '<td class="hist-data">' + dtCriacao + '</td>' +
+                '<td class="hist-data">' + dtFinalizacao + '</td>' +
+                '<td class="hist-campeao">' + campeao + '</td>' +
+                '<td class="hist-detalhe">' + nivel + '</td>' +
+                '<td class="hist-detalhe">' + genero + '</td>' +
+                '<td class="hist-detalhe">' + idade + '</td>' +
+                '</tr>';
+        }
+ 
+        html += '</tbody></table>';
+        tabelaHistorico.innerHTML = html;
+    }
+ 
+    // formatando data para dd/mm/aaaa
+    function formatarData(stringData) {
+        let data = stringData
+        
+        let ano = data.slice(0,4);
+        let mes = data.slice(5,7);
+        let dia = data.slice(8,10);
+
+        let dataFormatada = `${dia}/${mes}/${ano}`
+        return dataFormatada
     }
 
     function sair() {

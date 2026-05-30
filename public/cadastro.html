@@ -182,15 +182,13 @@
                 finalizarAguardar();
                 return false;
             } else {
-                // Enviando o valor da nova input
                 fetch("/usuarios/cadastrar", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
+                    // transformando json em string para enviar a requisição
                     body: JSON.stringify({
-                        // crie um atributo que recebe o valor recuperado aqui
-                        // Agora vá para o arquivo routes/usuario.js
                         nomeServer: nomeVar,
                         nascServer: nascVar,
                         generoServer: generoVar,

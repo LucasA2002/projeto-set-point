@@ -127,7 +127,7 @@ function registrarVencedor(id_partida, id_vencedor) {
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql)
         .then(function () {
-            var instrucaoSql = `
+            var instrucaoSqlFinalizar = `
             UPDATE torneio
             JOIN partida 
             ON partida.id_torneio = torneio.id_torneio
@@ -139,8 +139,8 @@ function registrarVencedor(id_partida, id_vencedor) {
             AND partida.rodada = 2;
         `;
 
-        console.log("Executando a instrução SQL: \n" + instrucaoSql);
-        return database.executar(instrucaoSql);
+        console.log("Executando a instrução SQL: \n" + instrucaoSqlFinalizar);
+        return database.executar(instrucaoSqlFinalizar);
         });
 }
 
@@ -172,9 +172,6 @@ function buscarDados(idGrupo) {
         u.nome,
         gm.id_usuario,
         COUNT(CASE WHEN p.id_vencedor = gm.id_usuario THEN 1 END) AS vitorias,
-        COUNT(CASE WHEN p.id_vencedor != gm.id_usuario 
-               AND (p.id_jogador1 = gm.id_usuario OR p.id_jogador2 = gm.id_usuario)
-               AND p.status = 'finalizada' THEN 1 END) AS derrotas,
         COUNT(DISTINCT CASE WHEN t.id_campeao = gm.id_usuario THEN t.id_torneio END) AS torneios_ganhos,
         COUNT(DISTINCT t.id_torneio) AS torneios_participados,
         COUNT(CASE WHEN p.id_jogador1 = gm.id_usuario OR p.id_jogador2 = gm.id_usuario THEN 1 END) AS partidas_jogadas
@@ -210,6 +207,26 @@ function buscarRodadas(idGrupo) {
     return database.executar(instrucaoSql);
 }
 
+function buscarHistorico(idGrupo) {
+    var instrucaoSql = `
+        SELECT
+            t.nome AS nome_torneio,
+            t.dt_criacao,
+            t.dt_finalizacao,
+            u.nome AS nome_campeao,
+            u.nivel,
+            u.genero,
+            TIMESTAMPDIFF(YEAR, u.data_nascimento, CURDATE()) AS idade
+        FROM torneio t
+        LEFT JOIN usuario u ON u.id_usuario = t.id_campeao
+        WHERE t.id_grupo = ${idGrupo}
+        AND t.status = 'finalizado'
+        ORDER BY t.dt_finalizacao DESC;
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     verificarTorneio,
     criarTorneio,
@@ -219,5 +236,6 @@ module.exports = {
     registrarVencedor,
     gerarFinal,
     buscarDados,
-    buscarRodadas
+    buscarRodadas,
+    buscarHistorico
 };

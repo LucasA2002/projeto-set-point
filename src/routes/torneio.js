@@ -23,6 +23,10 @@ router.post("/:idTorneio/gerar-chaveamento", function (req, res) {
     torneioController.gerarChaveamento(req, res);
 })
 
+router.get("/historico/:idGrupo", function (req, res) {
+    torneioController.historico(req, res);
+});
+
 router.get("/:idTorneio/partidas", function (req, res) {
     torneioController.listarPartidas(req, res);
 })

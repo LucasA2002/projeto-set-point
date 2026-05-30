@@ -1,19 +1,4 @@
 // sessão
-function validarSessao() {
-    var email = sessionStorage.EMAIL_USUARIO;
-    var nome = sessionStorage.NOME_USUARIO;
-
-    var b_usuario = document.getElementById("b_usuario");
-
-    if (email != null && nome != null) {
-        b_usuario.innerHTML = nome;
-        console.log("entrou no if do nome")
-    } else {
-        window.location = "../login.html";
-        console.log("redirecionou pro login")
-    }
-}
-
 function limparSessao() {
     sessionStorage.clear();
     window.location = "../login.html";

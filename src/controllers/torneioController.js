@@ -113,6 +113,8 @@ function gerarChaveamento(req, res) {
                                 res.status(400).send("É necessário ter exatamente 4 membros para gerar o chaveamento.");
                             } else {
 
+                                //colocar a lógica//
+
                                 // gerando chaveamento com duas semifinais
                                 torneioModel.gerarChaveamento(idTorneio, membros)
                                     .then(function () {
@@ -255,6 +257,25 @@ function rodadas(req, res) {
     }
 }
 
+// historico
+function historico(req, res) {
+    var idGrupo = req.params.idGrupo;
+ 
+    if (idGrupo == undefined) {
+        res.status(400).send("idGrupo está undefined!");
+    } else {
+        torneioModel.buscarHistorico(idGrupo)
+            .then(function (resultado) {
+                res.status(200).json(resultado);
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao buscar histórico! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
 module.exports = {
     verificar,
     criar,
@@ -263,5 +284,6 @@ module.exports = {
     registrarVencedor,
     gerarFinal,
     dados,
-    rodadas
+    rodadas,
+    historico
 };
