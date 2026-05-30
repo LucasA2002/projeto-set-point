@@ -39,7 +39,7 @@
             </nav>
 
             <div class="sidebar-rodape">
-                <button class="btn-sair" onclick="sair()">
+                <button class="btn-sair" onclick="limparSessao()">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     Sair
                 </button>
@@ -518,8 +518,8 @@
         return dataFormatada
     }
 
-    function sair() {
+    function limparSessao() {
         sessionStorage.clear();
-        window.location.href = "login.html";
+        window.location = "../login.html";
     }
 </script>

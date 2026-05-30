@@ -112,11 +112,30 @@ function gerarChaveamento(req, res) {
                             if (membros.length != 4) {
                                 res.status(400).send("É necessário ter exatamente 4 membros para gerar o chaveamento.");
                             } else {
+                                // randomização dos jogadores
+                                var posicao0 = Math.floor(Math.random() * membros.length);
+                                var jogador0 = membros[posicao0];
 
-                                //colocar a lógica//
+                                var posicao1 = Math.floor(Math.random() * membros.length);
+                                while (posicao1 == posicao0) {
+                                    posicao1 = Math.floor(Math.random() * membros.length);
+                                }
+                                var jogador1 = membros[posicao1];
+
+                                var posicao2 = Math.floor(Math.random() * membros.length);
+                                while (posicao2 == posicao0 || posicao2 == posicao1) {
+                                    posicao2 = Math.floor(Math.random() * membros.length);
+                                }
+                                var jogador2 = membros[posicao2];
+
+                                var posicao3 = Math.floor(Math.random() * membros.length);
+                                while (posicao3 == posicao0 || posicao3 == posicao1 || posicao3 == posicao2) {
+                                    posicao3 = Math.floor(Math.random() * membros.length);
+                                }
+                                var jogador3 = membros[posicao3];
 
                                 // gerando chaveamento com duas semifinais
-                                torneioModel.gerarChaveamento(idTorneio, membros)
+                                torneioModel.gerarChaveamento(idTorneio, jogador0, jogador1, jogador2, jogador3)
                                     .then(function () {
                                         res.status(201).json({
                                             mensagem: "Chaveamento gerado com sucesso!",

@@ -36,28 +36,7 @@ function buscarMembrosDoGrupo(id_grupo) {
     return database.executar(instrucaoSql);
 }
 
-function gerarChaveamento(id_torneio, membros) {
-    // sorteando as posições dos jogadores
-    var posicao0 = Math.floor(Math.random() * membros.length);
-    var jogador0 = membros[posicao0];
-
-    var posicao1 = Math.floor(Math.random() * membros.length);
-    while (posicao1 == posicao0) {
-        posicao1 = Math.floor(Math.random() * membros.length);
-    }
-    var jogador1 = membros[posicao1];
-
-    var posicao2 = Math.floor(Math.random() * membros.length);
-    while (posicao2 == posicao0 || posicao2 == posicao1) {
-        posicao2 = Math.floor(Math.random() * membros.length);
-    }
-    var jogador2 = membros[posicao2];
-
-    var posicao3 = Math.floor(Math.random() * membros.length);
-    while (posicao3 == posicao0 || posicao3 == posicao1 || posicao3 == posicao2) {
-        posicao3 = Math.floor(Math.random() * membros.length);
-    }
-    var jogador3 = membros[posicao3];
+function gerarChaveamento(id_torneio, jogador0, jogador1, jogador2, jogador3) {
 
     var valoresParticipantes = `
         (${id_torneio}, ${jogador0.id_usuario}),
