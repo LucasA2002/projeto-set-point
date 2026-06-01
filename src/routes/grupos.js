@@ -8,10 +8,12 @@ router.post("/criar", function (req, res) {
     grupoController.criar(req, res);
 })
 
+// entrar em um grupo
 router.post("/entrar", function (req, res) {
     grupoController.entrar(req, res);
 });
 
+// listagem dos grupos
 router.get("/:idUsuario", function (req, res) {
     grupoController.listar(req, res);
 });

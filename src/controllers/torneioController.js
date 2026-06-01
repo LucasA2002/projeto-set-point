@@ -50,12 +50,14 @@ function criar(req, res) {
     } else if (nomeTorneio == undefined) {
         res.status(400).send("nomeTorneio está indefinido!");
     } else {
+        // verificando se há torneio ativo
         torneioModel.verificarTorneio(idGrupo)
             .then(
                 function (resultado) {
                     if (resultado.length == 1) {
                         res.status(400).send("Já existe um torneio ativo!");
                     } else {
+                        // criando torneio
                         torneioModel.criarTorneio(idGrupo, nomeTorneio)
                             .then(
                                 function (resultadoCriar) {

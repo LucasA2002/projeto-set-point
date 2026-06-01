@@ -232,7 +232,9 @@
             return false;
         }
 
-        fetch(`/grupos/${idUsuarioVar}`, { method: "GET" })
+        fetch(`/grupos/${idUsuarioVar}`, { 
+            method: "GET" 
+        })
             .then(function (resposta) {
                 if (resposta.ok) {
                     return resposta.json();
